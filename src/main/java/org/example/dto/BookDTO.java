@@ -9,8 +9,9 @@ public class BookDTO {
     private int authorId;
     private LocalDate publicationDate;
 
-    public BookDTO(int id, String title, String description, int authorId, LocalDate publicationDate) {
+    public BookDTO() {}
 
+    public BookDTO(int id, String title, String description, int authorId, LocalDate publicationDate) {
         this.id = id;
         this.title = title;
         this.description = description;

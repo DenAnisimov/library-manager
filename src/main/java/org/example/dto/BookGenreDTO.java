@@ -4,6 +4,8 @@ public class BookGenreDTO {
     private int bookId;
     private int genreId;
 
+    public BookGenreDTO() {}
+
     public BookGenreDTO(int bookId, int genreId) {
         this.bookId = bookId;
         this.genreId = genreId;

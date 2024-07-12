@@ -9,6 +9,8 @@ public class Book {
     private int authorId;
     private LocalDate publicationDate;
 
+    public Book() {}
+
     public Book(int id, String title, String description, int authorId, LocalDate publicationDate) {
 
         this.id = id;
