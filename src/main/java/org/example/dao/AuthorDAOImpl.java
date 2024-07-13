@@ -15,7 +15,7 @@ public class AuthorDAOImpl implements AuthorDAO {
     @Override
     public List<Author> getAll() throws Exception {
         try (Connection connection = new DataBaseConnection().getConnection()) {
-            String sql = "select * from author";
+            String sql = "SELECT * FROM author";
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -35,9 +35,10 @@ public class AuthorDAOImpl implements AuthorDAO {
     @Override
     public Author getById(int id) throws Exception {
         try (Connection connection = new DataBaseConnection().getConnection()) {
-            String sql = MessageFormat.format("select * from author where id={0}", id);
+            String sql = "SELECT * FROM author WHERE id = ?";
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
@@ -54,7 +55,7 @@ public class AuthorDAOImpl implements AuthorDAO {
     @Override
     public void insert(Author entity) throws Exception {
         try (Connection connection = new DataBaseConnection().getConnection()) {
-            String sql = "INSERT INTO author(name) VALUES(?)";
+            String sql = "INSERT INTO author (name) VALUES(?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, entity.getName());
             preparedStatement.execute();
