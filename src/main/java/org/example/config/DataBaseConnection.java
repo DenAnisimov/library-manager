@@ -23,9 +23,9 @@ public class DataBaseConnection {
                 System.out.println("Loading failed properties from " + inputStream);
             }
             properties.load(inputStream);
-            url = properties.getProperty("url");
-            user = properties.getProperty("user");
-            password = properties.getProperty("password");
+            url = properties.getProperty("db.url");
+            user = properties.getProperty("db.user");
+            password = properties.getProperty("db.password");
         } catch (IOException e) {
             e.printStackTrace();
         }
