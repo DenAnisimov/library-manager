@@ -1,15 +1,52 @@
 package org.example.config;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class DataBaseConnection {
-    private final String URL = "jdbc:postgresql://localhost:5433/library";
-    private final String USER = "postgres";
-    private final String PASSWORD = "12345";
+    private String url;
+    private String user;
+    private String password;
+
+    public DataBaseConnection() {
+        loadProperties();
+    }
+
+    private void loadProperties() {
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("dbconfig.properties")) {
+            Properties properties = new Properties();
+            if (inputStream != null) {
+                System.out.println("Loading failed properties from " + inputStream);
+            }
+            properties.load(inputStream);
+            url = properties.getProperty("url");
+            user = properties.getProperty("user");
+            password = properties.getProperty("password");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        try {
+            return DriverManager.getConnection(url, user, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    public static void closeConnection(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
