@@ -10,6 +10,7 @@ public class Author {
     }
 
     public Author(Builder builder) {
+        this.id = builder.id;
         this.name = builder.name;
     }
 
@@ -47,7 +48,13 @@ public class Author {
     }
 
     public static class Builder {
+        private int id;
         private String name;
+
+        public Builder id(int id) {
+            this.id = id;
+            return this;
+        }
 
         public Builder name(String name) {
             this.name = name;

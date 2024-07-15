@@ -13,6 +13,7 @@ public class Book {
     public Book() {}
 
     public Book(Builder builder) {
+        this.id = builder.id;
         this.title = builder.title;
         this.description = builder.description;
         this.authorId = builder.authorId;
@@ -81,10 +82,16 @@ public class Book {
     }
 
     public static class Builder {
+        private int id;
         private String title;
         private String description;
         private int authorId;
         private LocalDate publicationDate;
+
+        public Builder id(int id) {
+            this.id = id;
+            return this;
+        }
 
         public Builder title(String title) {
             this.title = title;
