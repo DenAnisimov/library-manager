@@ -19,9 +19,10 @@ public class BookGenreDAOImpl implements BookGenreDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             List<BookGenre> bookGenres = new ArrayList<>();
             while (resultSet.next()) {
-                BookGenre bookGenre = new BookGenre();
-                bookGenre.setBookId(resultSet.getInt("book_id"));
-                bookGenre.setGenreId(resultSet.getInt("genre_id"));
+                BookGenre bookGenre = new BookGenre.Builder()
+                        .bookId(resultSet.getInt("book_id"))
+                        .genreId(resultSet.getInt("genre_id"))
+                        .build();
                 bookGenres.add(bookGenre);
             }
             return bookGenres;
@@ -36,10 +37,10 @@ public class BookGenreDAOImpl implements BookGenreDAO {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                BookGenre bookGenre = new BookGenre();
-                bookGenre.setBookId(resultSet.getInt("book_id"));
-                bookGenre.setGenreId(resultSet.getInt("genre_id"));
-                return bookGenre;
+                return new BookGenre.Builder()
+                        .bookId(resultSet.getInt("book_id"))
+                        .genreId(resultSet.getInt("genre_id"))
+                        .build();
             } else {
                 return null;
             }

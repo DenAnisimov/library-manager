@@ -19,12 +19,13 @@ public class BookDAOImpl implements BookDAO {
             List<Book> books = new ArrayList<>();
 
             while (resultSet.next()) {
-                Book book = new Book();
-                book.setId(resultSet.getInt("id"));
-                book.setTitle(resultSet.getString("title"));
-                book.setAuthorId(resultSet.getInt("author_id"));
-                book.setDescription(resultSet.getString("description"));
-                book.setPublicationDate(resultSet.getDate("publication_date").toLocalDate());
+                Book book = new Book.Builder()
+                        .id(resultSet.getInt("id"))
+                        .title(resultSet.getString("title"))
+                        .description(resultSet.getString("description"))
+                        .authorId(resultSet.getInt("author_id"))
+                        .publicationDate(resultSet.getDate("publication_date").toLocalDate())
+                        .build();
                 books.add(book);
             }
             return books;
@@ -35,19 +36,19 @@ public class BookDAOImpl implements BookDAO {
     public Book getById(int id) throws SQLException {
         String sql = "SELECT id, author_id, title, description, publication_date FROM book WHERE id = ?";
         try (Connection connection = new DataBaseConnection().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                Book book = new Book();
-                book.setId(resultSet.getInt("id"));
-                book.setTitle(resultSet.getString("title"));
-                book.setAuthorId(resultSet.getInt("author_id"));
-                book.setDescription(resultSet.getString("description"));
-                book.setPublicationDate(resultSet.getDate("publication_date").toLocalDate());
-                return book;
+                return new Book.Builder()
+                        .id(resultSet.getInt("id"))
+                        .title(resultSet.getString("title"))
+                        .description(resultSet.getString("description"))
+                        .authorId(resultSet.getInt("author_id"))
+                        .publicationDate(resultSet.getDate("publication_date").toLocalDate())
+                        .build();
             } else {
                 return null;
             }

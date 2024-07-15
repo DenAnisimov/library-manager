@@ -9,6 +9,7 @@ public class Genre {
     public Genre() {}
 
     public Genre(Builder builder) {
+        this.id = builder.id;
         this.name = builder.name;
     }
 
@@ -46,7 +47,13 @@ public class Genre {
     }
 
     public static class Builder {
+        private int id;
         private String name;
+
+        public Builder id(int id) {
+            this.id = id;
+            return this;
+        }
 
         public Builder name(String name) {
             this.name = name;

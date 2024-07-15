@@ -19,9 +19,10 @@ public class GenreDAOImpl implements GenreDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Genre> genres = new ArrayList<>();
             while (resultSet.next()) {
-                Genre genre = new Genre();
-                genre.setId(resultSet.getInt("id"));
-                genre.setName(resultSet.getString("name"));
+                Genre genre = new Genre.Builder()
+                        .id(resultSet.getInt("id"))
+                        .name("name")
+                        .build();
                 genres.add(genre);
             }
             return genres;
@@ -32,14 +33,14 @@ public class GenreDAOImpl implements GenreDAO {
     public Genre getById(int id) throws SQLException {
         String sql = "select id, name from genre where id = ?";
         try (Connection connection = new DataBaseConnection().getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                Genre genre = new Genre();
-                genre.setId(resultSet.getInt("id"));
-                genre.setName(resultSet.getString("name"));
-                return genre;
+                return new Genre.Builder()
+                        .id(resultSet.getInt("id"))
+                        .name(resultSet.getString("name"))
+                        .build();
             } else {
                 return null;
             }
@@ -50,7 +51,7 @@ public class GenreDAOImpl implements GenreDAO {
     public void insert(Genre entity) throws SQLException {
         String sql = "insert into genre (name) values (?)";
         try (Connection connection = new DataBaseConnection().getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, entity.getName());
             preparedStatement.executeUpdate();
         }
@@ -60,7 +61,7 @@ public class GenreDAOImpl implements GenreDAO {
     public void update(Genre entity) throws SQLException {
         String sql = "update genre set name = ? where id = ?";
         try (Connection connection = new DataBaseConnection().getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, entity.getName());
             preparedStatement.setInt(2, entity.getId());
             preparedStatement.executeUpdate();
@@ -71,7 +72,7 @@ public class GenreDAOImpl implements GenreDAO {
     public void delete(int id) throws SQLException {
         String sql = "delete from genre where id = ?";
         try (Connection connection = new DataBaseConnection().getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         }
