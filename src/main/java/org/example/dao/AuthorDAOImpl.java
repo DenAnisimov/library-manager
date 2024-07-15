@@ -23,7 +23,10 @@ public class AuthorDAOImpl implements AuthorDAO {
             List<Author> authors = new ArrayList<>();
 
             while (resultSet.next()) {
-                Author author = new Author();
+                Author author = new Author.Builder()
+                        .id(resultSet.getInt("id"))
+                        .name(resultSet.getString("name"))
+                        .build();
                 author.setId(resultSet.getInt("id"));
                 author.setName(resultSet.getString("name"));
                 authors.add(author);
@@ -42,10 +45,10 @@ public class AuthorDAOImpl implements AuthorDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                Author author = new Author();
-                author.setId(resultSet.getInt("id"));
-                author.setName(resultSet.getString("name"));
-                return author;
+                return new Author.Builder()
+                        .id(resultSet.getInt("id"))
+                        .name(resultSet.getString("name"))
+                        .build();
             } else {
                 return null;
             }
