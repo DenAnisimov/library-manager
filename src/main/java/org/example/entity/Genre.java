@@ -1,10 +1,16 @@
 package org.example.entity;
 
+import java.util.Objects;
+
 public class Genre {
     private int id;
     private String name;
 
     public Genre() {}
+
+    public Genre(Builder builder) {
+        this.name = builder.name;
+    }
 
     public Genre(int id, String name) {
         this.id = id;
@@ -25,5 +31,30 @@ public class Genre {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Genre genre)) return false;
+        return id == genre.id && Objects.equals(name, genre.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    public static class Builder {
+        private String name;
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Genre build() {
+            return new Genre(this);
+        }
     }
 }
