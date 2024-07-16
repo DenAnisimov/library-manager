@@ -61,7 +61,7 @@ public class BookGenre {
         }
 
         public BookGenre build() {
-            return new BookGenre(bookId, genreId);
+            return new BookGenre(this);
         }
     }
 }
