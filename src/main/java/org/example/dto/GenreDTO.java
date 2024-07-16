@@ -1,11 +1,18 @@
 package org.example.dto;
 
+import java.util.Objects;
+
 public class GenreDTO {
 
     private int id;
     private String name;
 
     public GenreDTO() {}
+
+    public GenreDTO(Builder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
+    }
 
     public GenreDTO(int id, String name) {
         this.id = id;
@@ -26,5 +33,36 @@ public class GenreDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GenreDTO genreDTO)) return false;
+        return id == genreDTO.id && Objects.equals(name, genreDTO.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    public static class Builder {
+        private int id;
+        private String name;
+
+        public Builder id(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public GenreDTO build() {
+            return new GenreDTO(this);
+        }
     }
 }
