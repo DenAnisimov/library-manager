@@ -81,6 +81,17 @@ public class BookDTO {
         return Objects.hash(id, title, authorId, publicationDate);
     }
 
+    @Override
+    public String toString() {
+        return "BookDTO{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", authorId=" + authorId +
+                ", publicationDate=" + publicationDate +
+                '}';
+    }
+
     public static class Builder {
         private int id;
         private String title;

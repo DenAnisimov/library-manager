@@ -46,6 +46,14 @@ public class BookGenreDTO {
         return Objects.hash(bookId, genreId);
     }
 
+    @Override
+    public String toString() {
+        return "BookGenreDTO{" +
+                "bookId=" + bookId +
+                ", genreId=" + genreId +
+                '}';
+    }
+
     public static class Builder {
         private int bookId;
         private int genreId;
