@@ -47,6 +47,14 @@ public class Author {
         return Objects.hash(id, name);
     }
 
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
     public static class Builder {
         private int id;
         private String name;

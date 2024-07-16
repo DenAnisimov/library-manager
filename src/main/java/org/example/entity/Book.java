@@ -82,6 +82,17 @@ public class Book {
         return Objects.hash(id, title, authorId, publicationDate);
     }
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", authorId=" + authorId +
+                ", publicationDate=" + publicationDate +
+                '}';
+    }
+
     public static class Builder {
         private int id;
         private String title;

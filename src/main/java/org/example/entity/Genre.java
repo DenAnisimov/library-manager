@@ -46,6 +46,14 @@ public class Genre {
         return Objects.hash(id, name);
     }
 
+    @Override
+    public String toString() {
+        return "Genre{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
     public static class Builder {
         private int id;
         private String name;
