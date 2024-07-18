@@ -9,7 +9,6 @@ public class Book {
     private String description;
     private Author author;
     private LocalDate publicationDate;
-    private Publisher publisher;
 
     public Book() {}
 
@@ -19,7 +18,14 @@ public class Book {
         this.description = builder.description;
         this.author = builder.author;
         this.publicationDate = builder.publicationDate;
-        this.publisher = builder.publisher;
+    }
+
+    public Book(int id, String title, String description, Author author, LocalDate publicationDate) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.author = author;
+        this.publicationDate = publicationDate;
     }
 
     public int getId() {
@@ -62,26 +68,17 @@ public class Book {
         this.publicationDate = publicationDate;
     }
 
-    public Publisher getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(Publisher publisher) {
-        this.publisher = publisher;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Book book)) return false;
         return id == book.id && Objects.equals(title, book.title) &&
-                Objects.equals(publicationDate, book.publicationDate) &&
-                Objects.equals(publisher, book.publisher);
+                Objects.equals(publicationDate, book.publicationDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, publicationDate, publisher);
+        return Objects.hash(id, title, publicationDate);
     }
 
     @Override
@@ -92,7 +89,6 @@ public class Book {
                 ", description='" + description + '\'' +
                 ", author=" + (author != null ? author.getName() : "null") +
                 ", publicationDate=" + publicationDate +
-                ", publisher=" + (publisher != null ? publisher.getName() : "null") +
                 '}';
     }
 
@@ -102,7 +98,6 @@ public class Book {
         private String description;
         private Author author;
         private LocalDate publicationDate;
-        private Publisher publisher;
 
         public Builder id(int id) {
             this.id = id;
@@ -126,11 +121,6 @@ public class Book {
 
         public Builder publicationDate(LocalDate publicationDate) {
             this.publicationDate = publicationDate;
-            return this;
-        }
-
-        public Builder publisher(Publisher publisher) {
-            this.publisher = publisher;
             return this;
         }
 
