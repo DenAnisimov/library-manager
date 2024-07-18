@@ -8,6 +8,8 @@ public class AuthorDetails {
     private String email;
     private Author author;
 
+    public AuthorDetails() {}
+
     public AuthorDetails(Builder builder) {
         this.id = builder.id;
         this.phoneNumber = builder.phoneNumber;
@@ -71,11 +73,11 @@ public class AuthorDetails {
 
     @Override
     public String toString() {
-        return "AuthorDetailsDTO{" +
+        return "AuthorDetails{" +
                 "id=" + id +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
-                ", author=" + author +
+                ", author=" + (author != null ? author.getName() : "null") +
                 '}';
     }
 
