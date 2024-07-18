@@ -1,28 +1,14 @@
 package org.example.dto;
 
-import org.example.entity.Author;
-
 import java.util.Objects;
 
 public class AuthorDetailsDTO {
     private int id;
     private String phoneNumber;
     private String email;
-    private Author author;
+    private AuthorDTO author;
 
-    public AuthorDetailsDTO(Builder builder) {
-        this.id = builder.id;
-        this.phoneNumber = builder.phoneNumber;
-        this.email = builder.email;
-        this.author = builder.author;
-    }
-
-    public AuthorDetailsDTO(int id, String phoneNumber, String email, Author author) {
-        this.id = id;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.author = author;
-    }
+    public AuthorDetailsDTO() {}
 
     public int getId() {
         return id;
@@ -48,11 +34,11 @@ public class AuthorDetailsDTO {
         this.email = email;
     }
 
-    public Author getAuthor() {
+    public AuthorDTO getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(AuthorDTO author) {
         this.author = author;
     }
 
@@ -60,10 +46,10 @@ public class AuthorDetailsDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof AuthorDetailsDTO that)) return false;
-        return id == that.id
-                && Objects.equals(phoneNumber, that.phoneNumber)
-                && Objects.equals(email, that.email)
-                && Objects.equals(author, that.author);
+        return id == that.id &&
+                Objects.equals(phoneNumber, that.phoneNumber) &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(author, that.author);
     }
 
     @Override
@@ -73,11 +59,11 @@ public class AuthorDetailsDTO {
 
     @Override
     public String toString() {
-        return "AuthorDetails{" +
+        return "AuthorDetailsDTO{" +
                 "id=" + id +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
-                ", author=" + author +
+                ", author=" + (author != null ? author.getName() : "null") +
                 '}';
     }
 
@@ -85,7 +71,7 @@ public class AuthorDetailsDTO {
         private int id;
         private String phoneNumber;
         private String email;
-        private Author author;
+        private AuthorDTO author;
 
         public Builder id(int id) {
             this.id = id;
@@ -102,13 +88,18 @@ public class AuthorDetailsDTO {
             return this;
         }
 
-        public Builder author(Author author) {
+        public Builder author(AuthorDTO author) {
             this.author = author;
             return this;
         }
 
         public AuthorDetailsDTO build() {
-            return new AuthorDetailsDTO(this);
+            AuthorDetailsDTO authorDetailsDTO = new AuthorDetailsDTO();
+            authorDetailsDTO.setId(this.id);
+            authorDetailsDTO.setPhoneNumber(this.phoneNumber);
+            authorDetailsDTO.setEmail(this.email);
+            authorDetailsDTO.setAuthor(this.author);
+            return authorDetailsDTO;
         }
     }
 }
