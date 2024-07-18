@@ -7,6 +7,7 @@ import java.util.Objects;
 public class Author {
     private int id;
     private String name;
+    private AuthorDetails authorDetails;
     private List<Book> books;
 
     public Author() {
@@ -17,11 +18,13 @@ public class Author {
         this.id = builder.id;
         this.name = builder.name;
         this.books = new ArrayList<>();
+        this.authorDetails = builder.authorDetails;
     }
 
-    public Author(int id, String name) {
+    public Author(int id, String name, AuthorDetails authorDetails) {
         this.id = id;
         this.name = name;
+        this.authorDetails = authorDetails;
         this.books = new ArrayList<>();
     }
 
@@ -54,6 +57,14 @@ public class Author {
         book.setAuthor(this);
     }
 
+    public AuthorDetails getAuthorDetails() {
+        return authorDetails;
+    }
+
+    public void setAuthorDetails(AuthorDetails authorDetails) {
+        this.authorDetails = authorDetails;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -77,6 +88,7 @@ public class Author {
     public static class Builder {
         private int id;
         private String name;
+        private AuthorDetails authorDetails;
 
         public Builder id(int id) {
             this.id = id;
@@ -85,6 +97,11 @@ public class Author {
 
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        public Builder authorDetails(AuthorDetails authorDetails) {
+            this.authorDetails = authorDetails;
             return this;
         }
 
