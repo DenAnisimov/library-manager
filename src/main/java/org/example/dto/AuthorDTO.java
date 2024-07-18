@@ -11,6 +11,20 @@ public class AuthorDTO {
 
     public AuthorDTO() {}
 
+    public AuthorDTO(Builder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
+        this.authorDetails = builder.authorDetails;
+        this.books = builder.books;
+    }
+
+    public AuthorDTO(int id, String name, AuthorDetailsDTO authorDetails, List<BookDTO> books) {
+        this.id = id;
+        this.name = name;
+        this.authorDetails = authorDetails;
+        this.books = books;
+    }
+
     public int getId() {
         return id;
     }

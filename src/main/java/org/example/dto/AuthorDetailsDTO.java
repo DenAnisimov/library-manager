@@ -10,6 +10,20 @@ public class AuthorDetailsDTO {
 
     public AuthorDetailsDTO() {}
 
+    public AuthorDetailsDTO(Builder builder) {
+        this.id = builder.id;
+        this.phoneNumber = builder.phoneNumber;
+        this.email = builder.email;
+        this.author = builder.author;
+    }
+
+    public AuthorDetailsDTO(int id, String phoneNumber, String email, AuthorDTO author) {
+        this.id = id;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.author = author;
+    }
+
     public int getId() {
         return id;
     }

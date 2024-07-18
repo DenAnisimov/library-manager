@@ -12,6 +12,22 @@ public class BookDTO {
 
     public BookDTO() {}
 
+    public BookDTO(Builder builder) {
+        this.id = builder.id;
+        this.title = builder.title;
+        this.description = builder.description;
+        this.author = builder.author;
+        this.publicationDate = builder.publicationDate;
+    }
+
+    public BookDTO(int id, String title, String description, AuthorDTO author, LocalDate publicationDate) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.author = author;
+        this.publicationDate = publicationDate;
+    }
+
     public int getId() {
         return id;
     }
