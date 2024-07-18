@@ -1,5 +1,6 @@
 package org.example.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -9,7 +10,9 @@ public class AuthorDTO {
     private AuthorDetailsDTO authorDetails;
     private List<BookDTO> books;
 
-    public AuthorDTO() {}
+    public AuthorDTO() {
+        this.books = new ArrayList<>();
+    }
 
     public AuthorDTO(Builder builder) {
         this.id = builder.id;
@@ -57,6 +60,11 @@ public class AuthorDTO {
         this.books = books;
     }
 
+    public void addBook(BookDTO book) {
+        this.books.add(book);
+        book.setAuthor(this);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -74,6 +82,8 @@ public class AuthorDTO {
         return "AuthorDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", authorDetails=" + authorDetails +
+                ", books=" + books +
                 '}';
     }
 
