@@ -3,55 +3,68 @@ package org.example.dao;
 import org.example.config.DataBaseConnection;
 import org.example.entity.Genre;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GenreDAOImpl implements GenreDAO {
+
+    private final DataBaseConnection dataBaseConnection;
+
+    public GenreDAOImpl(DataBaseConnection dataBaseConnection) {
+        this.dataBaseConnection = dataBaseConnection;
+    }
+
     @Override
     public List<Genre> getAll() throws SQLException {
-        String sql = "select id, name from genre";
-        try (Connection connection = new DataBaseConnection().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
+        String sql = "SELECT id, name FROM genre";
+
+        try (Connection connection = dataBaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
             List<Genre> genres = new ArrayList<>();
+
             while (resultSet.next()) {
                 Genre genre = new Genre.Builder()
                         .id(resultSet.getInt("id"))
-                        .name("name")
+                        .name(resultSet.getString("name"))
                         .build();
                 genres.add(genre);
             }
+
             return genres;
         }
     }
 
     @Override
     public Genre getById(int id) throws SQLException {
-        String sql = "select id, name from genre where id = ?";
-        try (Connection connection = new DataBaseConnection().getConnection();
+        String sql = "SELECT id, name FROM genre WHERE id = ?";
+
+        try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
             preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return new Genre.Builder()
-                        .id(resultSet.getInt("id"))
-                        .name(resultSet.getString("name"))
-                        .build();
-            } else {
-                return null;
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return new Genre.Builder()
+                            .id(resultSet.getInt("id"))
+                            .name(resultSet.getString("name"))
+                            .build();
+                } else {
+                    return null;
+                }
             }
         }
     }
 
     @Override
     public void insert(Genre entity) throws SQLException {
-        String sql = "insert into genre (name) values (?)";
-        try (Connection connection = new DataBaseConnection().getConnection();
+        String sql = "INSERT INTO genre (name) VALUES (?)";
+
+        try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
             preparedStatement.setString(1, entity.getName());
             preparedStatement.executeUpdate();
         }
@@ -59,9 +72,11 @@ public class GenreDAOImpl implements GenreDAO {
 
     @Override
     public void update(Genre entity) throws SQLException {
-        String sql = "update genre set name = ? where id = ?";
-        try (Connection connection = new DataBaseConnection().getConnection();
+        String sql = "UPDATE genre SET name = ? WHERE id = ?";
+
+        try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
             preparedStatement.setString(1, entity.getName());
             preparedStatement.setInt(2, entity.getId());
             preparedStatement.executeUpdate();
@@ -70,9 +85,11 @@ public class GenreDAOImpl implements GenreDAO {
 
     @Override
     public void delete(int id) throws SQLException {
-        String sql = "delete from genre where id = ?";
-        try (Connection connection = new DataBaseConnection().getConnection();
+        String sql = "DELETE FROM genre WHERE id = ?";
+
+        try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         }
