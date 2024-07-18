@@ -3,21 +3,10 @@ package org.example.dto;
 import java.util.Objects;
 
 public class GenreDTO {
-
     private int id;
     private String name;
 
     public GenreDTO() {}
-
-    public GenreDTO(Builder builder) {
-        this.id = builder.id;
-        this.name = builder.name;
-    }
-
-    public GenreDTO(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 
     public int getId() {
         return id;
@@ -70,7 +59,10 @@ public class GenreDTO {
         }
 
         public GenreDTO build() {
-            return new GenreDTO(this);
+            GenreDTO genreDTO = new GenreDTO();
+            genreDTO.setId(this.id);
+            genreDTO.setName(this.name);
+            return genreDTO;
         }
     }
 }

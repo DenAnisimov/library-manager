@@ -1,75 +1,69 @@
 package org.example.dto;
 
 import java.util.Objects;
+import java.util.Set;
 
 public class BookGenreDTO {
-    private int bookId;
-    private int genreId;
+    private Set<BookDTO> books;
+    private Set<GenreDTO> genres;
 
     public BookGenreDTO() {}
 
-    public BookGenreDTO(Builder builder) {
-        this.bookId = builder.bookId;
-        this.genreId = builder.genreId;
+    public Set<BookDTO> getBooks() {
+        return books;
     }
 
-    public BookGenreDTO(int bookId, int genreId) {
-        this.bookId = bookId;
-        this.genreId = genreId;
+    public void setBooks(Set<BookDTO> books) {
+        this.books = books;
     }
 
-    public int getBookId() {
-        return bookId;
+    public Set<GenreDTO> getGenres() {
+        return genres;
     }
 
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
-    }
-
-    public int getGenreId() {
-        return genreId;
-    }
-
-    public void setGenreId(int genreId) {
-        this.genreId = genreId;
+    public void setGenres(Set<GenreDTO> genres) {
+        this.genres = genres;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BookGenreDTO bookGenreDTO)) return false;
-        return bookId == bookGenreDTO.bookId && genreId == bookGenreDTO.genreId;
+        return Objects.equals(books, bookGenreDTO.books) && Objects.equals(genres, bookGenreDTO.genres);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bookId, genreId);
+        return Objects.hash(books, genres);
     }
 
     @Override
     public String toString() {
         return "BookGenreDTO{" +
-                "bookId=" + bookId +
-                ", genreId=" + genreId +
+                "books=" + books +
+                ", genres=" + genres +
                 '}';
     }
 
     public static class Builder {
-        private int bookId;
-        private int genreId;
+        private Set<BookDTO> books;
+        private Set<GenreDTO> genres;
 
-        public Builder bookId(int bookId) {
-            this.bookId = bookId;
+        public Builder books(Set<BookDTO> books) {
+            this.books = books;
             return this;
         }
 
-        public Builder genreId(int genreId) {
-            this.genreId = genreId;
+        public Builder genres(Set<GenreDTO> genres) {
+            this.genres = genres;
             return this;
         }
 
         public BookGenreDTO build() {
-            return new BookGenreDTO(this);
+            BookGenreDTO bookGenreDTO = new BookGenreDTO();
+            bookGenreDTO.setBooks(this.books);
+            bookGenreDTO.setGenres(this.genres);
+            return bookGenreDTO;
         }
     }
 }

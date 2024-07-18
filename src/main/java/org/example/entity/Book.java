@@ -7,7 +7,7 @@ public class Book {
     private int id;
     private String title;
     private String description;
-    private int authorId;
+    private Author author;
     private LocalDate publicationDate;
 
     public Book() {}
@@ -16,16 +16,15 @@ public class Book {
         this.id = builder.id;
         this.title = builder.title;
         this.description = builder.description;
-        this.authorId = builder.authorId;
+        this.author = builder.author;
         this.publicationDate = builder.publicationDate;
     }
 
-    public Book(int id, String title, String description, int authorId, LocalDate publicationDate) {
-
+    public Book(int id, String title, String description, Author author, LocalDate publicationDate) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.authorId = authorId;
+        this.author = author;
         this.publicationDate = publicationDate;
     }
 
@@ -53,12 +52,12 @@ public class Book {
         this.description = description;
     }
 
-    public int getAuthorId() {
-        return authorId;
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
     public LocalDate getPublicationDate() {
@@ -73,13 +72,13 @@ public class Book {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Book book)) return false;
-        return id == book.id && authorId == book.authorId && Objects.equals(title, book.title)
-                && Objects.equals(publicationDate, book.publicationDate);
+        return id == book.id && Objects.equals(title, book.title) &&
+                Objects.equals(publicationDate, book.publicationDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, authorId, publicationDate);
+        return Objects.hash(id, title, publicationDate);
     }
 
     @Override
@@ -88,7 +87,7 @@ public class Book {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", authorId=" + authorId +
+                ", author=" + (author != null ? author.getName() : "null") +
                 ", publicationDate=" + publicationDate +
                 '}';
     }
@@ -97,7 +96,7 @@ public class Book {
         private int id;
         private String title;
         private String description;
-        private int authorId;
+        private Author author;
         private LocalDate publicationDate;
 
         public Builder id(int id) {
@@ -115,8 +114,8 @@ public class Book {
             return this;
         }
 
-        public Builder authorId(int authorId) {
-            this.authorId = authorId;
+        public Builder author(Author author) {
+            this.author = author;
             return this;
         }
 

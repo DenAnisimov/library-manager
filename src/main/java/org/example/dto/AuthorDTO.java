@@ -1,21 +1,22 @@
 package org.example.dto;
 
+import java.util.List;
 import java.util.Objects;
 
 public class AuthorDTO {
     private int id;
     private String name;
+    private AuthorDetailsDTO authorDetails;
+    private List<BookDTO> books;
 
     public AuthorDTO() {}
 
-    public AuthorDTO(Builder builder) {
-        this.id = builder.id;
-        this.name = builder.name;
+    public int getId() {
+        return id;
     }
 
-    public AuthorDTO(int id, String name) {
+    public void setId(int id) {
         this.id = id;
-        this.name = name;
     }
 
     public String getName() {
@@ -26,12 +27,20 @@ public class AuthorDTO {
         this.name = name;
     }
 
-    public int getId() {
-        return id;
+    public AuthorDetailsDTO getAuthorDetails() {
+        return authorDetails;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAuthorDetails(AuthorDetailsDTO authorDetails) {
+        this.authorDetails = authorDetails;
+    }
+
+    public List<BookDTO> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<BookDTO> books) {
+        this.books = books;
     }
 
     @Override
@@ -57,6 +66,8 @@ public class AuthorDTO {
     public static class Builder {
         private int id;
         private String name;
+        private AuthorDetailsDTO authorDetails;
+        private List<BookDTO> books;
 
         public Builder id(int id) {
             this.id = id;
@@ -68,9 +79,23 @@ public class AuthorDTO {
             return this;
         }
 
-        public AuthorDTO build() {
-            return new AuthorDTO(this);
+        public Builder authorDetails(AuthorDetailsDTO authorDetails) {
+            this.authorDetails = authorDetails;
+            return this;
         }
 
+        public Builder books(List<BookDTO> books) {
+            this.books = books;
+            return this;
+        }
+
+        public AuthorDTO build() {
+            AuthorDTO authorDTO = new AuthorDTO();
+            authorDTO.setId(this.id);
+            authorDTO.setName(this.name);
+            authorDTO.setAuthorDetails(this.authorDetails);
+            authorDTO.setBooks(this.books);
+            return authorDTO;
+        }
     }
 }

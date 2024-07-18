@@ -7,26 +7,10 @@ public class BookDTO {
     private int id;
     private String title;
     private String description;
-    private int authorId;
+    private AuthorDTO author;
     private LocalDate publicationDate;
 
     public BookDTO() {}
-
-    public BookDTO(Builder builder) {
-        this.id = builder.id;
-        this.title = builder.title;
-        this.description = builder.description;
-        this.authorId = builder.authorId;
-        this.publicationDate = builder.publicationDate;
-    }
-
-    public BookDTO(int id, String title, String description, int authorId, LocalDate publicationDate) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.authorId = authorId;
-        this.publicationDate = publicationDate;
-    }
 
     public int getId() {
         return id;
@@ -52,12 +36,12 @@ public class BookDTO {
         this.description = description;
     }
 
-    public int getAuthorId() {
-        return authorId;
+    public AuthorDTO getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
+    public void setAuthor(AuthorDTO author) {
+        this.author = author;
     }
 
     public LocalDate getPublicationDate() {
@@ -72,13 +56,12 @@ public class BookDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BookDTO bookDTO)) return false;
-        return id == bookDTO.id && authorId == bookDTO.authorId
-                && Objects.equals(title, bookDTO.title) && Objects.equals(publicationDate, bookDTO.publicationDate);
+        return id == bookDTO.id && Objects.equals(title, bookDTO.title) && Objects.equals(publicationDate, bookDTO.publicationDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, authorId, publicationDate);
+        return Objects.hash(id, title, publicationDate);
     }
 
     @Override
@@ -87,7 +70,7 @@ public class BookDTO {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", authorId=" + authorId +
+                ", author=" + (author != null ? author.getName() : "null") +
                 ", publicationDate=" + publicationDate +
                 '}';
     }
@@ -96,7 +79,7 @@ public class BookDTO {
         private int id;
         private String title;
         private String description;
-        private int authorId;
+        private AuthorDTO author;
         private LocalDate publicationDate;
 
         public Builder id(int id) {
@@ -114,8 +97,8 @@ public class BookDTO {
             return this;
         }
 
-        public Builder authorId(int authorId) {
-            this.authorId = authorId;
+        public Builder author(AuthorDTO author) {
+            this.author = author;
             return this;
         }
 
@@ -125,7 +108,13 @@ public class BookDTO {
         }
 
         public BookDTO build() {
-            return new BookDTO(this);
+            BookDTO bookDTO = new BookDTO();
+            bookDTO.setId(this.id);
+            bookDTO.setTitle(this.title);
+            bookDTO.setDescription(this.description);
+            bookDTO.setAuthor(this.author);
+            bookDTO.setPublicationDate(this.publicationDate);
+            return bookDTO;
         }
     }
 }
