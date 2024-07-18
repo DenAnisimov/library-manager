@@ -1,22 +1,28 @@
 package org.example.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Author {
     private int id;
     private String name;
+    private List<Book> books;
 
     public Author() {
+        this.books = new ArrayList<>();
     }
 
     public Author(Builder builder) {
         this.id = builder.id;
         this.name = builder.name;
+        this.books = new ArrayList<>();
     }
 
     public Author(int id, String name) {
         this.id = id;
         this.name = name;
+        this.books = new ArrayList<>();
     }
 
     public String getName() {
@@ -33,6 +39,19 @@ public class Author {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
+    public void addBook(Book book) {
+        this.books.add(book);
+        book.setAuthor(this);
     }
 
     @Override
@@ -72,6 +91,5 @@ public class Author {
         public Author build() {
             return new Author(this);
         }
-
     }
 }

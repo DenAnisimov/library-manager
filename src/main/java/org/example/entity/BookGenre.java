@@ -1,70 +1,83 @@
 package org.example.entity;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class BookGenre {
-    private int bookId;
-    private int genreId;
+    private Set<Book> books = new HashSet<>();
+    private Set<Genre> genres = new HashSet<>();
 
     public BookGenre() {}
 
     public BookGenre(Builder builder) {
-        this.bookId = builder.bookId;
-        this.genreId = builder.genreId;
+        this.books = builder.books;
+        this.genres = builder.genres;
     }
 
-    public BookGenre(int bookId, int genreId) {
-        this.bookId = bookId;
-        this.genreId = genreId;
+    public Set<Book> getBooks() {
+        return books;
     }
 
-    public int getBookId() {
-        return bookId;
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
 
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
+    public Set<Genre> getGenres() {
+        return genres;
     }
 
-    public int getGenreId() {
-        return genreId;
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
     }
 
-    public void setGenreId(int genreId) {
-        this.genreId = genreId;
+    public void addBook(Book book) {
+        this.books.add(book);
+    }
+
+    public void addGenre(Genre genre) {
+        this.genres.add(genre);
+    }
+
+    public void removeBook(Book book) {
+        this.books.remove(book);
+    }
+
+    public void removeGenre(Genre genre) {
+        this.genres.remove(genre);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BookGenre bookGenre)) return false;
-        return bookId == bookGenre.bookId && genreId == bookGenre.genreId;
+        return Objects.equals(books, bookGenre.books) && Objects.equals(genres, bookGenre.genres);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bookId, genreId);
+        return Objects.hash(books, genres);
     }
 
     @Override
     public String toString() {
         return "BookGenre{" +
-                "bookId=" + bookId +
-                ", genreId=" + genreId +
+                "books=" + books +
+                ", genres=" + genres +
                 '}';
     }
 
     public static class Builder {
-        private int bookId;
-        private int genreId;
+        private Set<Book> books = new HashSet<>();
+        private Set<Genre> genres = new HashSet<>();
 
-        public Builder bookId(int bookId) {
-            this.bookId = bookId;
+        public Builder books(Set<Book> books) {
+            this.books = books;
             return this;
         }
 
-        public Builder genreId(int genreId) {
-            this.genreId = genreId;
+        public Builder genres(Set<Genre> genres) {
+            this.genres = genres;
             return this;
         }
 
