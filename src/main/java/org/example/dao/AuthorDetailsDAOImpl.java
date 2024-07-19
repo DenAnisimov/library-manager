@@ -1,6 +1,7 @@
 package org.example.dao;
 
 import org.example.config.DataBaseConnection;
+import org.example.dao.query.AuthorDetailsSqlQuery;
 import org.example.entity.Author;
 import org.example.entity.AuthorDetails;
 
@@ -21,7 +22,7 @@ public class AuthorDetailsDAOImpl implements AuthorDetailsDAO {
 
     @Override
     public List<AuthorDetails> getAll() throws SQLException {
-        String sql = "SELECT id, phone_number, email, author_id FROM author_details";
+        String sql = AuthorDetailsSqlQuery.GET_ALL.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -40,7 +41,7 @@ public class AuthorDetailsDAOImpl implements AuthorDetailsDAO {
 
     @Override
     public AuthorDetails getById(int id) throws SQLException {
-        String sql = "SELECT id, phone_number, email, author_id FROM author_details WHERE id = ?";
+        String sql = AuthorDetailsSqlQuery.GET_BY_ID.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -58,7 +59,7 @@ public class AuthorDetailsDAOImpl implements AuthorDetailsDAO {
 
     @Override
     public void insert(AuthorDetails entity) throws SQLException {
-        String sql = "INSERT INTO author_details (phone_number, email, author_id) VALUES (?, ?, ?)";
+        String sql = AuthorDetailsSqlQuery.INSERT.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -72,7 +73,7 @@ public class AuthorDetailsDAOImpl implements AuthorDetailsDAO {
 
     @Override
     public void update(AuthorDetails entity) throws SQLException {
-        String sql = "UPDATE author_details SET phone_number=?, email=?, author_id=? WHERE id=?";
+        String sql = AuthorDetailsSqlQuery.UPDATE.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -87,7 +88,7 @@ public class AuthorDetailsDAOImpl implements AuthorDetailsDAO {
 
     @Override
     public void delete(int id) throws SQLException {
-        String sql = "DELETE FROM author_details WHERE id=?";
+        String sql = AuthorDetailsSqlQuery.DELETE.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

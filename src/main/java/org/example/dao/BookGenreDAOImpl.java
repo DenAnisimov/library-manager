@@ -1,6 +1,8 @@
 package org.example.dao;
 
 import org.example.config.DataBaseConnection;
+import org.example.dao.query.BookGenreSqlQuery;
+import org.example.dao.query.BookSqlQuery;
 import org.example.entity.Book;
 import org.example.entity.BookGenre;
 import org.example.entity.Genre;
@@ -19,11 +21,7 @@ public class BookGenreDAOImpl implements BookGenreDAO {
 
     @Override
     public BookGenre getByBookId(int bookId) throws SQLException {
-        String sql = "SELECT b.id AS book_id, b.title AS book_title, g.id AS genre_id, g.name AS genre_name " +
-                "FROM book b " +
-                "LEFT JOIN book_genre bg ON b.id = bg.book_id " +
-                "LEFT JOIN genre g ON bg.genre_id = g.id " +
-                "WHERE b.id = ?";
+        String sql = BookGenreSqlQuery.GET_BY_BOOK_ID.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -59,7 +57,7 @@ public class BookGenreDAOImpl implements BookGenreDAO {
                     bookGenre.setGenres(genres);
                     return bookGenre;
                 } else {
-                    return null;  // Книга не найдена
+                    return null;
                 }
             }
         }
@@ -67,11 +65,7 @@ public class BookGenreDAOImpl implements BookGenreDAO {
 
     @Override
     public BookGenre getByGenreId(int genreId) throws SQLException {
-        String sql = "SELECT g.id AS genre_id, g.name AS genre_name, b.id AS book_id, b.title AS book_title " +
-                "FROM genre g " +
-                "LEFT JOIN book_genre bg ON g.id = bg.genre_id " +
-                "LEFT JOIN book b ON bg.book_id = b.id " +
-                "WHERE g.id = ?";
+        String sql = BookGenreSqlQuery.GET_BY_GENRE_ID.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

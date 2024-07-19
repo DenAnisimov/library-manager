@@ -1,6 +1,7 @@
 package org.example.dao;
 
 import org.example.config.DataBaseConnection;
+import org.example.dao.query.AuthorSqlQuery;
 import org.example.entity.Author;
 import org.example.entity.AuthorDetails;
 import org.example.entity.Book;
@@ -24,14 +25,7 @@ public class AuthorDAOImpl implements AuthorDAO {
 
     @Override
     public List<Author> getAll() throws SQLException {
-        String sql = "SELECT a.id AS author_id, a.name AS author_name, " +
-                "ad.id AS author_details_id, ad.phone_number AS author_details_phone_number, " +
-                "ad.email AS author_details_email, " +
-                "b.id AS book_id, b.title AS book_title, b.description AS book_description, " +
-                "b.publication_date AS book_publication_date " +
-                "FROM author a " +
-                "LEFT JOIN author_details ad ON a.id = ad.author_id " +
-                "LEFT JOIN book b ON a.id = b.author_id";
+        String sql = AuthorSqlQuery.GET_ALL.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -57,7 +51,7 @@ public class AuthorDAOImpl implements AuthorDAO {
 
     @Override
     public Author getById(int id) throws SQLException {
-        String sql = "SELECT id, name FROM author WHERE id = ?";
+        String sql = AuthorSqlQuery.GET_BY_ID.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -75,7 +69,7 @@ public class AuthorDAOImpl implements AuthorDAO {
 
     @Override
     public void insert(Author entity) throws SQLException {
-        String sql = "INSERT INTO author (name) VALUES (?)";
+        String sql = AuthorSqlQuery.INSERT.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -87,7 +81,7 @@ public class AuthorDAOImpl implements AuthorDAO {
 
     @Override
     public void update(Author entity) throws SQLException {
-        String sql = "UPDATE author SET name=? WHERE id=?";
+        String sql = AuthorSqlQuery.UPDATE.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -100,7 +94,7 @@ public class AuthorDAOImpl implements AuthorDAO {
 
     @Override
     public void delete(int id) throws SQLException {
-        String sql = "DELETE FROM author WHERE id=?";
+        String sql = AuthorSqlQuery.DELETE.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -134,7 +128,7 @@ public class AuthorDAOImpl implements AuthorDAO {
 
         Map<Integer, Book> bookMap = new HashMap<>();
         int bookId = resultSet.getInt("book_id");
-        if (bookId > 0 && !bookMap.containsKey(bookId)) {
+        if (bookId > 0) {
             String bookTitle = resultSet.getString("book_title");
             String bookDescription = resultSet.getString("book_description");
             java.sql.Date publicationDate = resultSet.getDate("book_publication_date");

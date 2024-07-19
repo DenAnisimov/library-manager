@@ -1,6 +1,7 @@
 package org.example.dao;
 
 import org.example.config.DataBaseConnection;
+import org.example.dao.query.BookSqlQuery;
 import org.example.entity.Author;
 import org.example.entity.Book;
 import org.example.entity.BookGenre;
@@ -22,10 +23,7 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public List<Book> getAll() throws SQLException {
-        String sql = "SELECT b.id AS book_id, b.title AS book_title, b.description AS book_description, " +
-                "b.publication_date AS book_publication_date, a.id AS author_id, a.name AS author_name " +
-                "FROM book b " +
-                "LEFT JOIN author a ON b.author_id = a.id";
+        String sql = BookSqlQuery.GET_ALL.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -42,7 +40,6 @@ public class BookDAOImpl implements BookDAO {
                     bookMap.put(bookId, book);
                 }
 
-                // Handle author details
                 int authorId = resultSet.getInt("author_id");
                 if (authorId > 0) {
                     String authorName = resultSet.getString("author_name");
@@ -57,9 +54,7 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public List<Book> getAllByAuthor(int authorId) throws SQLException {
-        String sql = "SELECT b.id AS book_id, b.title AS book_title, b.description AS book_description, " +
-                "b.publication_date AS book_publication_date, a.id AS author_id, a.name AS author_name " +
-                "FROM book b LEFT JOIN author a ON b.author_id = a.id WHERE a.id = ?";
+        String sql = BookSqlQuery.GET_ALL_BY_AUTHOR.getQuery();
 
         List<Book> books = new ArrayList<>();
 
@@ -80,11 +75,7 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public Book getById(int id) throws SQLException {
-        String sql = "SELECT b.id AS book_id, b.title AS book_title, b.description AS book_description, " +
-                "b.publication_date AS book_publication_date, a.id AS author_id, a.name AS author_name " +
-                "FROM book b " +
-                "LEFT JOIN author a ON b.author_id = a.id " +
-                "WHERE b.id = ?";
+        String sql = BookSqlQuery.GET_BY_ID.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -109,7 +100,7 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public void insert(Book entity) throws SQLException {
-        String sql = "INSERT INTO book (title, description, author_id, publication_date) VALUES (?, ?, ?, ?)";
+        String sql = BookSqlQuery.INSERT.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -124,7 +115,7 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public void update(Book entity) throws SQLException {
-        String sql = "UPDATE book SET title = ?, description = ?, author_id = ?, publication_date = ? WHERE id = ?";
+        String sql = BookSqlQuery.UPDATE.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -140,7 +131,7 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public void delete(int id) throws SQLException {
-        String sql = "DELETE FROM book WHERE id = ?";
+        String sql = BookSqlQuery.DELETE.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

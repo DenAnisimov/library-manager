@@ -1,6 +1,7 @@
 package org.example.dao;
 
 import org.example.config.DataBaseConnection;
+import org.example.dao.query.GenreSqlQuery;
 import org.example.entity.Genre;
 
 import java.sql.*;
@@ -17,7 +18,7 @@ public class GenreDAOImpl implements GenreDAO {
 
     @Override
     public List<Genre> getAll() throws SQLException {
-        String sql = "SELECT id, name FROM genre";
+        String sql = GenreSqlQuery.GET_ALL.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -39,7 +40,7 @@ public class GenreDAOImpl implements GenreDAO {
 
     @Override
     public Genre getById(int id) throws SQLException {
-        String sql = "SELECT id, name FROM genre WHERE id = ?";
+        String sql = GenreSqlQuery.GET_BY_ID.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -60,7 +61,7 @@ public class GenreDAOImpl implements GenreDAO {
 
     @Override
     public void insert(Genre entity) throws SQLException {
-        String sql = "INSERT INTO genre (name) VALUES (?)";
+        String sql = GenreSqlQuery.INSERT.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -72,7 +73,7 @@ public class GenreDAOImpl implements GenreDAO {
 
     @Override
     public void update(Genre entity) throws SQLException {
-        String sql = "UPDATE genre SET name = ? WHERE id = ?";
+        String sql = GenreSqlQuery.UPDATE.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -85,7 +86,7 @@ public class GenreDAOImpl implements GenreDAO {
 
     @Override
     public void delete(int id) throws SQLException {
-        String sql = "DELETE FROM genre WHERE id = ?";
+        String sql = GenreSqlQuery.DELETE.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
