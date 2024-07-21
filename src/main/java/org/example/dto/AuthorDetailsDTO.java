@@ -73,7 +73,7 @@ public class AuthorDetailsDTO {
 
     @Override
     public String toString() {
-        return "AuthorDetails{" +
+        return "AuthorDetailsDTO{" +
                 "id=" + id +
                 ", lifeYears='" + lifeYears + '\'' +
                 ", briefBiography='" + briefBiography + '\'' +
