@@ -28,10 +28,8 @@ public class AuthorDAOImpl implements AuthorDAO {
         String sql = AuthorSqlQuery.GET_ALL.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
             Map<Integer, Author> authorMap = new HashMap<>();
 
             while (resultSet.next()) {
@@ -41,8 +39,9 @@ public class AuthorDAOImpl implements AuthorDAO {
                 if (author == null) {
                     author = buildAuthorFromResultSet(resultSet);
                     authorMap.put(authorId, author);
+                } else {
+                    addBookToAuthor(resultSet, author);
                 }
-
             }
 
             return new ArrayList<>(authorMap.values());
@@ -57,15 +56,22 @@ public class AuthorDAOImpl implements AuthorDAO {
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                Author author = null;
 
-            if (resultSet.next()) {
-                return buildAuthorFromResultSet(resultSet);
-            } else {
-                return null;
+                while (resultSet.next()) {
+                    if (author == null) {
+                        author = buildAuthorFromResultSet(resultSet);
+                    } else {
+                        addBookToAuthor(resultSet, author);
+                    }
+                }
+
+                return author;
             }
         }
     }
+
 
     @Override
     public void insert(Author entity) throws SQLException {
@@ -87,7 +93,6 @@ public class AuthorDAOImpl implements AuthorDAO {
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, entity.getName());
-            preparedStatement.setInt(2, entity.getId());
             preparedStatement.executeUpdate();
         }
     }
@@ -104,28 +109,7 @@ public class AuthorDAOImpl implements AuthorDAO {
         }
     }
 
-    private Author buildAuthorFromResultSet(ResultSet resultSet) throws SQLException {
-        int authorId = resultSet.getInt("author_id");
-        String authorName = resultSet.getString("author_name");
-
-        AuthorDetails authorDetails = null;
-        int authorDetailsId = resultSet.getInt("author_details_id");
-        if (authorDetailsId > 0) {
-            String lifeYears = resultSet.getString("author_details_life_years");
-            String briefBiograpy = resultSet.getString("author_details_brief_biograpy");
-            authorDetails = new AuthorDetails.Builder()
-                    .id(authorDetailsId)
-                    .lifeYears(lifeYears)
-                    .briefBiography(briefBiograpy)
-                    .build();
-        }
-
-        Author author = new Author.Builder()
-                .id(authorId)
-                .name(authorName)
-                .authorDetails(authorDetails)
-                .build();
-
+    private void addBookToAuthor(ResultSet resultSet, Author author) throws SQLException {
         int bookId = resultSet.getInt("book_id");
         if (bookId > 0) {
             String bookTitle = resultSet.getString("book_title");
@@ -136,10 +120,36 @@ public class AuthorDAOImpl implements AuthorDAO {
                     .id(bookId)
                     .title(bookTitle)
                     .description(bookDescription)
-                    .publicationDate(publicationDate.toLocalDate())
+                    .publicationDate(publicationDate != null ? publicationDate.toLocalDate() : null)
                     .build();
+
             author.addBook(book);
         }
+    }
+
+    private Author buildAuthorFromResultSet(ResultSet resultSet) throws SQLException {
+        int authorId = resultSet.getInt("author_id");
+        String authorName = resultSet.getString("author_name");
+
+        AuthorDetails authorDetails = null;
+        int authorDetailsId = resultSet.getInt("author_details_id");
+        if (authorDetailsId > 0) {
+            String lifeYears = resultSet.getString("author_details_life_years");
+            String briefBiography = resultSet.getString("author_details_brief_biography");
+            authorDetails = new AuthorDetails.Builder()
+                    .id(authorDetailsId)
+                    .lifeYears(lifeYears)
+                    .briefBiography(briefBiography)
+                    .build();
+        }
+
+        Author author = new Author.Builder()
+                .id(authorId)
+                .name(authorName)
+                .authorDetails(authorDetails)
+                .build();
+
+        addBookToAuthor(resultSet, author);
 
         return author;
     }
