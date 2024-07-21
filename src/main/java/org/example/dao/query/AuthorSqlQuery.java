@@ -4,8 +4,8 @@ public enum AuthorSqlQuery {
 
     GET_ALL(
             "SELECT a.id AS author_id, a.name AS author_name, " +
-                    "ad.id AS author_details_id, ad.phone_number AS author_details_phone_number, " +
-                    "ad.email AS author_details_email, " +
+                    "ad.id AS author_details_id, ad.life_years AS author_details_life_years, " +
+                    "ad.brief_biography AS author_details_brief_biography, " +
                     "b.id AS book_id, b.title AS book_title, b.description AS book_description, " +
                     "b.publication_date AS book_publication_date " +
                     "FROM author a " +

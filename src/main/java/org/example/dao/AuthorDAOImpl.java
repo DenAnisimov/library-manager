@@ -111,12 +111,12 @@ public class AuthorDAOImpl implements AuthorDAO {
         AuthorDetails authorDetails = null;
         int authorDetailsId = resultSet.getInt("author_details_id");
         if (authorDetailsId > 0) {
-            String phoneNumber = resultSet.getString("author_details_phone_number");
-            String email = resultSet.getString("author_details_email");
+            String lifeYears = resultSet.getString("author_details_life_years");
+            String briefBiograpy = resultSet.getString("author_details_brief_biograpy");
             authorDetails = new AuthorDetails.Builder()
                     .id(authorDetailsId)
-                    .phoneNumber(phoneNumber)
-                    .email(email)
+                    .lifeYears(lifeYears)
+                    .briefBiography(briefBiograpy)
                     .build();
         }
 
@@ -126,7 +126,6 @@ public class AuthorDAOImpl implements AuthorDAO {
                 .authorDetails(authorDetails)
                 .build();
 
-        Map<Integer, Book> bookMap = new HashMap<>();
         int bookId = resultSet.getInt("book_id");
         if (bookId > 0) {
             String bookTitle = resultSet.getString("book_title");
@@ -139,7 +138,6 @@ public class AuthorDAOImpl implements AuthorDAO {
                     .description(bookDescription)
                     .publicationDate(publicationDate.toLocalDate())
                     .build();
-            bookMap.put(bookId, book);
             author.addBook(book);
         }
 

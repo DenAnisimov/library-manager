@@ -4,23 +4,23 @@ import java.util.Objects;
 
 public class AuthorDetailsDTO {
     private int id;
-    private String phoneNumber;
-    private String email;
+    private String lifeYears;
+    private String briefBiography;
     private AuthorDTO author;
 
     public AuthorDetailsDTO() {}
 
     public AuthorDetailsDTO(Builder builder) {
         this.id = builder.id;
-        this.phoneNumber = builder.phoneNumber;
-        this.email = builder.email;
+        this.lifeYears = builder.lifeYears;
+        this.briefBiography = builder.briefBiography;
         this.author = builder.author;
     }
 
     public AuthorDetailsDTO(int id, String phoneNumber, String email, AuthorDTO author) {
         this.id = id;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
+        this.lifeYears = phoneNumber;
+        this.briefBiography = email;
         this.author = author;
     }
 
@@ -32,20 +32,20 @@ public class AuthorDetailsDTO {
         this.id = id;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getLifeYears() {
+        return lifeYears;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setLifeYears(String lifeYears) {
+        this.lifeYears = lifeYears;
     }
 
-    public String getEmail() {
-        return email;
+    public String getBriefBiography() {
+        return briefBiography;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setBriefBiography(String briefBiography) {
+        this.briefBiography = briefBiography;
     }
 
     public AuthorDTO getAuthor() {
@@ -60,31 +60,31 @@ public class AuthorDetailsDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof AuthorDetailsDTO that)) return false;
-        return id == that.id &&
-                Objects.equals(phoneNumber, that.phoneNumber) &&
-                Objects.equals(email, that.email) &&
-                Objects.equals(author, that.author);
+        return id == that.id
+                && Objects.equals(lifeYears, that.lifeYears)
+                && Objects.equals(briefBiography, that.briefBiography)
+                && Objects.equals(author, that.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, phoneNumber, email, author);
+        return Objects.hash(id, lifeYears, briefBiography, author);
     }
 
     @Override
     public String toString() {
-        return "AuthorDetailsDTO{" +
+        return "AuthorDetails{" +
                 "id=" + id +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", email='" + email + '\'' +
+                ", lifeYears='" + lifeYears + '\'' +
+                ", briefBiography='" + briefBiography + '\'' +
                 ", author=" + (author != null ? author.getName() : "null") +
                 '}';
     }
 
     public static class Builder {
         private int id;
-        private String phoneNumber;
-        private String email;
+        private String lifeYears;
+        private String briefBiography;
         private AuthorDTO author;
 
         public Builder id(int id) {
@@ -92,13 +92,13 @@ public class AuthorDetailsDTO {
             return this;
         }
 
-        public Builder phoneNumber(String phoneNumber) {
-            this.phoneNumber = phoneNumber;
+        public Builder lifeYears(String lifeYears) {
+            this.lifeYears = lifeYears;
             return this;
         }
 
-        public Builder email(String email) {
-            this.email = email;
+        public Builder briefBiography(String briefBiography) {
+            this.briefBiography = briefBiography;
             return this;
         }
 
@@ -108,12 +108,7 @@ public class AuthorDetailsDTO {
         }
 
         public AuthorDetailsDTO build() {
-            AuthorDetailsDTO authorDetailsDTO = new AuthorDetailsDTO();
-            authorDetailsDTO.setId(this.id);
-            authorDetailsDTO.setPhoneNumber(this.phoneNumber);
-            authorDetailsDTO.setEmail(this.email);
-            authorDetailsDTO.setAuthor(this.author);
-            return authorDetailsDTO;
+            return new AuthorDetailsDTO(this);
         }
     }
 }

@@ -64,8 +64,8 @@ public class AuthorDetailsDAOImpl implements AuthorDetailsDAO {
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-            preparedStatement.setString(1, entity.getPhoneNumber());
-            preparedStatement.setString(2, entity.getEmail());
+            preparedStatement.setString(1, entity.getLifeYears());
+            preparedStatement.setString(2, entity.getBriefBiography());
             preparedStatement.setInt(3, entity.getAuthor().getId());
             preparedStatement.executeUpdate();
         }
@@ -78,8 +78,8 @@ public class AuthorDetailsDAOImpl implements AuthorDetailsDAO {
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-            preparedStatement.setString(1, entity.getPhoneNumber());
-            preparedStatement.setString(2, entity.getEmail());
+            preparedStatement.setString(1, entity.getLifeYears());
+            preparedStatement.setString(2, entity.getBriefBiography());
             preparedStatement.setInt(3, entity.getAuthor().getId());
             preparedStatement.setInt(4, entity.getId());
             preparedStatement.executeUpdate();
@@ -100,16 +100,16 @@ public class AuthorDetailsDAOImpl implements AuthorDetailsDAO {
 
     private AuthorDetails buildAuthorDetailsFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
-        String phoneNumber = resultSet.getString("phone_number");
-        String email = resultSet.getString("email");
+        String lifeYears = resultSet.getString("life_years");
+        String briefBiography = resultSet.getString("brief_biography");
         int authorId = resultSet.getInt("author_id");
 
         Author author = new Author.Builder().id(authorId).build();
 
         return new AuthorDetails.Builder()
                 .id(id)
-                .phoneNumber(phoneNumber)
-                .email(email)
+                .lifeYears(lifeYears)
+                .briefBiography(briefBiography)
                 .author(author)
                 .build();
     }
