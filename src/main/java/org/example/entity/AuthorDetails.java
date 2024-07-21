@@ -17,10 +17,10 @@ public class AuthorDetails {
         this.author = builder.author;
     }
 
-    public AuthorDetails(int id, String phoneNumber, String email, Author author) {
+    public AuthorDetails(int id, String lifeYears, String briefBiography, Author author) {
         this.id = id;
-        this.lifeYears = phoneNumber;
-        this.briefBiography = email;
+        this.lifeYears = lifeYears;
+        this.briefBiography = briefBiography;
         this.author = author;
     }
 

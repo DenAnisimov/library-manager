@@ -17,10 +17,10 @@ public class AuthorDetailsDTO {
         this.author = builder.author;
     }
 
-    public AuthorDetailsDTO(int id, String phoneNumber, String email, AuthorDTO author) {
+    public AuthorDetailsDTO(int id, String lifeYears, String briefBiography, AuthorDTO author) {
         this.id = id;
-        this.lifeYears = phoneNumber;
-        this.briefBiography = email;
+        this.lifeYears = lifeYears;
+        this.briefBiography = briefBiography;
         this.author = author;
     }
 
