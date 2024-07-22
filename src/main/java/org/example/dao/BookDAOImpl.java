@@ -130,7 +130,7 @@ public class BookDAOImpl implements BookDAO {
         Author author = new Author();
 
         if (authorId > 0) {
-            authorDAO.getById(authorId);
+            author = authorDAO.getById(authorId);
         }
 
         return new Book.Builder()
