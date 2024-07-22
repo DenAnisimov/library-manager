@@ -93,6 +93,7 @@ public class AuthorDAOImpl implements AuthorDAO {
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, entity.getName());
+            preparedStatement.setInt(2, entity.getId());
             preparedStatement.executeUpdate();
         }
     }
