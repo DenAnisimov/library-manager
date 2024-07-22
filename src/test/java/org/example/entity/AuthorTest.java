@@ -56,6 +56,9 @@ class AuthorTest {
     @Test
     void testAuthorToString() {
         Author author = new Author(1, "Author Name", null);
-        assertEquals("Author{id=1, name='Author Name'}", author.toString());
+        String expectedString = "Author{id=1, name='Author Name', authorDetails=null, books=[]}";
+
+        assertEquals(expectedString, author.toString());
     }
+
 }

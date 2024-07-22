@@ -82,6 +82,8 @@ public class Author {
         return "Author{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", authorDetails=" + authorDetails +
+                ", books=" + books +
                 '}';
     }
 
