@@ -16,8 +16,11 @@ public class AuthorDetailsDAOImpl implements AuthorDetailsDAO {
 
     private final DataBaseConnection dataBaseConnection;
 
-    public AuthorDetailsDAOImpl(DataBaseConnection dataBaseConnection) {
+    private final AuthorDAO authorDAO;
+
+    public AuthorDetailsDAOImpl(DataBaseConnection dataBaseConnection, AuthorDAO authorDAO) {
         this.dataBaseConnection = dataBaseConnection;
+        this.authorDAO = authorDAO;
     }
 
     @Override
@@ -25,9 +28,9 @@ public class AuthorDetailsDAOImpl implements AuthorDetailsDAO {
         String sql = AuthorDetailsSqlQuery.GET_ALL.getQuery();
 
         try (Connection connection = dataBaseConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
 
-            ResultSet resultSet = preparedStatement.executeQuery();
             List<AuthorDetails> authorDetailsList = new ArrayList<>();
 
             while (resultSet.next()) {
@@ -47,12 +50,12 @@ public class AuthorDetailsDAOImpl implements AuthorDetailsDAO {
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                return buildAuthorDetailsFromResultSet(resultSet);
-            } else {
-                return null;
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return buildAuthorDetailsFromResultSet(resultSet);
+                } else {
+                    return null;
+                }
             }
         }
     }
@@ -104,7 +107,7 @@ public class AuthorDetailsDAOImpl implements AuthorDetailsDAO {
         String briefBiography = resultSet.getString("brief_biography");
         int authorId = resultSet.getInt("author_id");
 
-        Author author = new Author.Builder().id(authorId).build();
+        Author author = authorDAO.getById(authorId);
 
         return new AuthorDetails.Builder()
                 .id(id)

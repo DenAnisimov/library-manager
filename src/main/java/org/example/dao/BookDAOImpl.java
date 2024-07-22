@@ -4,21 +4,19 @@ import org.example.config.DataBaseConnection;
 import org.example.dao.query.BookSqlQuery;
 import org.example.entity.Author;
 import org.example.entity.Book;
-import org.example.entity.BookGenre;
-import org.example.entity.Genre;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class BookDAOImpl implements BookDAO {
 
     private final DataBaseConnection dataBaseConnection;
+    private final AuthorDAO authorDAO;
 
-    public BookDAOImpl(DataBaseConnection dataBaseConnection) {
+    public BookDAOImpl(DataBaseConnection dataBaseConnection, AuthorDAO authorDAO) {
         this.dataBaseConnection = dataBaseConnection;
+        this.authorDAO = authorDAO;
     }
 
     @Override
@@ -29,26 +27,14 @@ public class BookDAOImpl implements BookDAO {
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
-            Map<Integer, Book> bookMap = new HashMap<>();
+            List<Book> books = new ArrayList<>();
 
             while (resultSet.next()) {
-                int bookId = resultSet.getInt("book_id");
-
-                Book book = bookMap.get(bookId);
-                if (book == null) {
-                    book = buildBookFromResultSet(resultSet);
-                    bookMap.put(bookId, book);
-                }
-
-                int authorId = resultSet.getInt("author_id");
-                if (authorId > 0) {
-                    String authorName = resultSet.getString("author_name");
-                    Author author = new Author.Builder().id(authorId).name(authorName).build();
-                    book.setAuthor(author);
-                }
+                Book book = buildBookFromResultSet(resultSet);
+                books.add(book);
             }
 
-            return new ArrayList<>(bookMap.values());
+            return books;
         }
     }
 
@@ -62,14 +48,14 @@ public class BookDAOImpl implements BookDAO {
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setInt(1, authorId);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
 
-            while (resultSet.next()) {
-                Book book = buildBookFromResultSet(resultSet);
-                books.add(book);
+                while (resultSet.next()) {
+                    Book book = buildBookFromResultSet(resultSet);
+                    books.add(book);
+                }
             }
         }
-
         return books;
     }
 
@@ -83,14 +69,7 @@ public class BookDAOImpl implements BookDAO {
             preparedStatement.setInt(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    Book book = buildBookFromResultSet(resultSet);
-                    int authorId = resultSet.getInt("author_id");
-                    if (authorId > 0) {
-                        String authorName = resultSet.getString("author_name");
-                        Author author = new Author.Builder().id(authorId).name(authorName).build();
-                        book.setAuthor(author);
-                    }
-                    return book;
+                    return buildBookFromResultSet(resultSet);
                 } else {
                     return null;
                 }
@@ -147,11 +126,19 @@ public class BookDAOImpl implements BookDAO {
         String description = resultSet.getString("book_description");
         Date publicationDate = resultSet.getDate("book_publication_date");
 
+        int authorId = resultSet.getInt("author_id");
+        Author author = new Author();
+
+        if (authorId > 0) {
+            authorDAO.getById(authorId);
+        }
+
         return new Book.Builder()
                 .id(bookId)
                 .title(title)
                 .description(description)
                 .publicationDate(publicationDate.toLocalDate())
+                .author(author)
                 .build();
     }
 }
