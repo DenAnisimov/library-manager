@@ -4,18 +4,17 @@ public enum BookSqlQuery {
 
     GET_ALL(
             "SELECT b.id AS book_id, b.title AS book_title, b.description AS book_description, " +
-                    "b.publication_date AS book_publication_date, a.id AS author_id, a.name AS author_name " +
-                    "FROM book b LEFT JOIN author a ON b.author_id = a.id"
+                    "b.publication_date AS book_publication_date, author_id FROM book b"
     ),
     GET_ALL_BY_AUTHOR(
             "SELECT b.id AS book_id, b.title AS book_title, b.description AS book_description, " +
-                    "b.publication_date AS book_publication_date, a.id AS author_id, a.name AS author_name " +
-                    "FROM book b LEFT JOIN author a ON b.author_id = a.id WHERE a.id = ?"
+                    "b.publication_date AS book_publication_date, author_id FROM book b " +
+                    "WHERE b.author_id = ?"
     ),
     GET_BY_ID(
             "SELECT b.id AS book_id, b.title AS book_title, b.description AS book_description, " +
-                    "b.publication_date AS book_publication_date, a.id AS author_id, a.name AS author_name " +
-                    "FROM book b LEFT JOIN author a ON b.author_id = a.id WHERE b.id = ?"
+                    "b.publication_date AS book_publication_date, author_id FROM book b " +
+                    "WHERE book_id = ?"
     ),
     INSERT(
             "INSERT INTO book (title, description, author_id, publication_date) VALUES (?, ?, ?, ?)"
