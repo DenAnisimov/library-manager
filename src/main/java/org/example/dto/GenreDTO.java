@@ -8,6 +8,16 @@ public class GenreDTO {
 
     public GenreDTO() {}
 
+    public GenreDTO(Builder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
+    }
+
+    public GenreDTO(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }

@@ -9,6 +9,16 @@ public class BookGenreDTO {
 
     public BookGenreDTO() {}
 
+    public BookGenreDTO(Builder builder) {
+        this.books = builder.books;
+        this.genres = builder.genres;
+    }
+
+    public BookGenreDTO(Set<BookDTO> books, Set<GenreDTO> genres) {
+        this.books = books;
+        this.genres = genres;
+    }
+
     public Set<BookDTO> getBooks() {
         return books;
     }
