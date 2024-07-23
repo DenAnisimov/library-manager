@@ -2,7 +2,6 @@ package org.example.dao;
 
 import org.example.config.DataBaseConnection;
 import org.example.dao.query.BookGenreSqlQuery;
-import org.example.dao.query.BookSqlQuery;
 import org.example.entity.Book;
 import org.example.entity.BookGenre;
 import org.example.entity.Genre;
