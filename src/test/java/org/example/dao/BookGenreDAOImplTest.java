@@ -90,9 +90,8 @@ class BookGenreDAOImplTest {
     void testGetByBookIdWithSQLException() throws SQLException {
         when(preparedStatement.executeQuery()).thenThrow(new SQLException("Database error"));
 
-        SQLException thrown = assertThrows(SQLException.class, () -> {
-            bookGenreDAO.getByBookId(1);
-        }, "Expected getByBookId to throw, but it didn't");
+        SQLException thrown = assertThrows(SQLException.class, () -> bookGenreDAO.getByBookId(1),
+                "Expected getByBookId to throw, but it didn't");
 
         assertEquals("Database error", thrown.getMessage(), "Expected exception message to be 'Database error'");
 
@@ -177,9 +176,8 @@ class BookGenreDAOImplTest {
     void testGetByGenreIdWithSQLException() throws SQLException {
         when(preparedStatement.executeQuery()).thenThrow(new SQLException("Database error"));
 
-        SQLException thrown = assertThrows(SQLException.class, () -> {
-            bookGenreDAO.getByGenreId(1);
-        }, "Expected getByGenreId to throw, but it didn't");
+        SQLException thrown = assertThrows(SQLException.class, () -> bookGenreDAO.getByGenreId(1),
+                "Expected getByGenreId to throw, but it didn't");
 
         assertEquals("Database error", thrown.getMessage(), "Expected exception message to be 'Database error'");
 

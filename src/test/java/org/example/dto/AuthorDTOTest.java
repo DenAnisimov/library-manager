@@ -2,9 +2,6 @@ package org.example.dto;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class AuthorDTOTest {
@@ -29,7 +26,6 @@ class AuthorDTOTest {
     void testGettersAndSetters() {
         AuthorDTO authorDTO = new AuthorDTO();
         AuthorDetailsDTO detailsDTO = new AuthorDetailsDTO();
-        List<BookDTO> books = new ArrayList<>();
 
         authorDTO.setId(1);
         authorDTO.setName("Author Name");

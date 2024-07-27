@@ -3,7 +3,6 @@ package org.example.dao;
 import org.example.config.DataBaseConnection;
 import org.example.entity.Author;
 import org.example.entity.AuthorDetails;
-import org.example.entity.Book;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
