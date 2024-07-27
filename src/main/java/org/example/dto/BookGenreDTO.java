@@ -1,78 +1,82 @@
 package org.example.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Objects;
 import java.util.Set;
 
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BookGenreDTO {
-    private Set<BookDTO> books;
-    private Set<GenreDTO> genres;
+    private Set<BookDTO> bookDTOS;
+    private Set<GenreDTO> genreDTOS;
 
     public BookGenreDTO() {}
 
     public BookGenreDTO(Builder builder) {
-        this.books = builder.books;
-        this.genres = builder.genres;
+        this.bookDTOS = builder.bookDTOS;
+        this.genreDTOS = builder.genresDTOS;
     }
 
-    public BookGenreDTO(Set<BookDTO> books, Set<GenreDTO> genres) {
-        this.books = books;
-        this.genres = genres;
+    public BookGenreDTO(Set<BookDTO> bookDTOS, Set<GenreDTO> genreDTOS) {
+        this.bookDTOS = bookDTOS;
+        this.genreDTOS = genreDTOS;
     }
 
-    public Set<BookDTO> getBooks() {
-        return books;
+    public Set<BookDTO> getBookDTOS() {
+        return bookDTOS;
     }
 
-    public void setBooks(Set<BookDTO> books) {
-        this.books = books;
+    public void setBookDTOS(Set<BookDTO> bookDTOS) {
+        this.bookDTOS = bookDTOS;
     }
 
-    public Set<GenreDTO> getGenres() {
-        return genres;
+    public Set<GenreDTO> getGenreDTOS() {
+        return genreDTOS;
     }
 
-    public void setGenres(Set<GenreDTO> genres) {
-        this.genres = genres;
+    public void setGenreDTOS(Set<GenreDTO> genreDTOS) {
+        this.genreDTOS = genreDTOS;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BookGenreDTO bookGenreDTO)) return false;
-        return Objects.equals(books, bookGenreDTO.books) && Objects.equals(genres, bookGenreDTO.genres);
+        return Objects.equals(bookDTOS, bookGenreDTO.bookDTOS) && Objects.equals(genreDTOS, bookGenreDTO.genreDTOS);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(books, genres);
+        return Objects.hash(bookDTOS, genreDTOS);
     }
 
     @Override
     public String toString() {
         return "BookGenreDTO{" +
-                "books=" + books +
-                ", genres=" + genres +
+                "books=" + bookDTOS +
+                ", genres=" + genreDTOS +
                 '}';
     }
 
     public static class Builder {
-        private Set<BookDTO> books;
-        private Set<GenreDTO> genres;
+        private Set<BookDTO> bookDTOS;
+        private Set<GenreDTO> genresDTOS;
 
-        public Builder books(Set<BookDTO> books) {
-            this.books = books;
+        public Builder books(Set<BookDTO> bookDTOS) {
+            this.bookDTOS = bookDTOS;
             return this;
         }
 
-        public Builder genres(Set<GenreDTO> genres) {
-            this.genres = genres;
+        public Builder genres(Set<GenreDTO> genresDTOS) {
+            this.genresDTOS = genresDTOS;
             return this;
         }
 
         public BookGenreDTO build() {
             BookGenreDTO bookGenreDTO = new BookGenreDTO();
-            bookGenreDTO.setBooks(this.books);
-            bookGenreDTO.setGenres(this.genres);
+            bookGenreDTO.setBookDTOS(this.bookDTOS);
+            bookGenreDTO.setGenreDTOS(this.genresDTOS);
             return bookGenreDTO;
         }
     }

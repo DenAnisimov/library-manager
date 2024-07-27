@@ -52,12 +52,12 @@ class BookDAOImplTest {
     void testGetAll() throws SQLException {
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
         when(resultSet.next()).thenReturn(true, true, true, false);
-        when(resultSet.getInt("book_id")).thenReturn(1, 2, 3);
-        when(resultSet.getString("book_title"))
+        when(resultSet.getInt("id")).thenReturn(1, 2, 3);
+        when(resultSet.getString("title"))
                 .thenReturn("Book Title 1", "Book Title 2", "Book Title 3");
-        when(resultSet.getString("book_description"))
+        when(resultSet.getString("description"))
                 .thenReturn("Book Description 1", "Book Description 2", "Book Description 3");
-        when(resultSet.getDate("book_publication_date"))
+        when(resultSet.getDate("publication_date"))
                 .thenReturn(Date.valueOf(LocalDate.of(1990, 1, 1)),
                         Date.valueOf(LocalDate.of(1990, 1, 2)),
                         Date.valueOf(LocalDate.of(1990, 1, 3)));
@@ -98,12 +98,12 @@ class BookDAOImplTest {
     void testGetByAuthor() throws SQLException {
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
         when(resultSet.next()).thenReturn(true, true, true, false);
-        when(resultSet.getInt("book_id")).thenReturn(1, 2, 3);
-        when(resultSet.getString("book_title"))
+        when(resultSet.getInt("id")).thenReturn(1, 2, 3);
+        when(resultSet.getString("title"))
                 .thenReturn("Book Title 1", "Book Title 2", "Book Title 2");
-        when(resultSet.getString("book_description"))
+        when(resultSet.getString("description"))
                 .thenReturn("Book Description 1", "Book Description 2", "Book Description 3");
-        when(resultSet.getDate("book_publication_date"))
+        when(resultSet.getDate("publication_date"))
                 .thenReturn(Date.valueOf(LocalDate.of(1990, 1, 1)),
                         Date.valueOf(LocalDate.of(1990, 1, 2)),
                         Date.valueOf(LocalDate.of(1990, 1, 3)));
@@ -139,12 +139,12 @@ class BookDAOImplTest {
     void testGetById() throws SQLException {
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
         when(resultSet.next()).thenReturn(true, false);
-        when(resultSet.getInt("book_id")).thenReturn(1);
-        when(resultSet.getString("book_title"))
+        when(resultSet.getInt("id")).thenReturn(1);
+        when(resultSet.getString("title"))
                 .thenReturn("Book Title 1");
-        when(resultSet.getString("book_description"))
+        when(resultSet.getString("description"))
                 .thenReturn("Book Description 1");
-        when(resultSet.getDate("book_publication_date"))
+        when(resultSet.getDate("publication_date"))
                 .thenReturn(Date.valueOf(LocalDate.of(1990, 1, 1)));
         when(resultSet.getInt("author_id")).thenReturn(1);
 

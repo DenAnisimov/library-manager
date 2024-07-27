@@ -24,8 +24,8 @@ import static org.junit.jupiter.api.Assertions.*;
         Set<GenreDTO> genres = new HashSet<>();
         BookGenreDTO bookGenreDTO = new BookGenreDTO(books, genres);
 
-        assertEquals(books, bookGenreDTO.getBooks());
-        assertEquals(genres, bookGenreDTO.getGenres());
+        assertEquals(books, bookGenreDTO.getBookDTOS());
+        assertEquals(genres, bookGenreDTO.getGenreDTOS());
     }
 
     @Test
@@ -34,11 +34,11 @@ import static org.junit.jupiter.api.Assertions.*;
         Set<BookDTO> books = new HashSet<>();
         Set<GenreDTO> genres = new HashSet<>();
 
-        bookGenreDTO.setBooks(books);
-        bookGenreDTO.setGenres(genres);
+        bookGenreDTO.setBookDTOS(books);
+        bookGenreDTO.setGenreDTOS(genres);
 
-        assertEquals(books, bookGenreDTO.getBooks());
-        assertEquals(genres, bookGenreDTO.getGenres());
+        assertEquals(books, bookGenreDTO.getBookDTOS());
+        assertEquals(genres, bookGenreDTO.getGenreDTOS());
     }
 
     @Test
@@ -70,7 +70,7 @@ import static org.junit.jupiter.api.Assertions.*;
                 .genres(genres)
                 .build();
 
-        assertEquals(books, bookGenreDTO.getBooks());
-        assertEquals(genres, bookGenreDTO.getGenres());
+        assertEquals(books, bookGenreDTO.getBookDTOS());
+        assertEquals(genres, bookGenreDTO.getGenreDTOS());
     }
 }

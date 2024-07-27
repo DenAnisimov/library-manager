@@ -12,7 +12,7 @@ class AuthorDetailsDTOTest {
         assertEquals(0, details.getId());
         assertNull(details.getLifeYears());
         assertNull(details.getBriefBiography());
-        assertNull(details.getAuthor());
+        assertNull(details.getAuthorDTO());
     }
 
     @Test
@@ -22,7 +22,7 @@ class AuthorDetailsDTOTest {
         assertEquals(1, details.getId());
         assertEquals("01/01/1830-01/01/1870", details.getLifeYears());
         assertEquals("Brief biography", details.getBriefBiography());
-        assertEquals(author, details.getAuthor());
+        assertEquals(author, details.getAuthorDTO());
     }
 
     @Test
@@ -32,12 +32,12 @@ class AuthorDetailsDTOTest {
                 .id(1)
                 .lifeYears("01/01/1830-01/01/1870")
                 .briefBiography("Brief biography")
-                .author(author)
+                .authorDTO(author)
                 .build();
         assertEquals(1, details.getId());
         assertEquals("01/01/1830-01/01/1870", details.getLifeYears());
         assertEquals("Brief biography", details.getBriefBiography());
-        assertEquals(author, details.getAuthor());
+        assertEquals(author, details.getAuthorDTO());
     }
 
     @Test

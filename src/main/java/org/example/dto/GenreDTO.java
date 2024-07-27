@@ -1,7 +1,11 @@
 package org.example.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Objects;
 
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GenreDTO {
     private int id;
     private String name;

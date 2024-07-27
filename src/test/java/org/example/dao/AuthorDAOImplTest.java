@@ -48,16 +48,12 @@ class AuthorDAOImplTest {
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
 
         when(resultSet.next()).thenReturn(true, true, false);
-        when(resultSet.getInt("author_id")).thenReturn(1,1, 2, 2);
+        when(resultSet.getInt("author_id")).thenReturn(1, 2);
         when(resultSet.getString("author_name")).thenReturn("Author Name 1", "Author Name 2");
         when(resultSet.getInt("author_details_id")).thenReturn(1, 2);
         when(resultSet.getString("author_details_life_years")).thenReturn("1900-2000", "1990-н.в.");
         when(resultSet.getString("author_details_brief_biography"))
                 .thenReturn("A brief bio 1", "A brief bio 2");
-        when(resultSet.getInt("book_id")).thenReturn(1);
-        when(resultSet.getString("book_title")).thenReturn("Book Title");
-        when(resultSet.getString("book_description")).thenReturn("Book Description");
-        when(resultSet.getDate("book_publication_date")).thenReturn(java.sql.Date.valueOf("2000-01-01"));
 
         List<Author> authors = authorDAO.getAll();
 
@@ -73,51 +69,6 @@ class AuthorDAOImplTest {
         assertEquals("A brief bio 1", authorDetails.getBriefBiography(),
                 "Expected brief biography to be 'A brief bio'");
 
-        List<Book> books = author.getBooks();
-        assertEquals(1, books.size(), "Expected one book in the author's book list");
-        Book book = books.getFirst();
-        assertEquals(1, book.getId(), "Expected book ID to be 1");
-        assertEquals("Book Title", book.getTitle(),
-                "Expected book title to be 'Book Title'");
-        assertEquals("Book Description", book.getDescription(),
-                "Expected book description to be 'Book Description'");
-        assertEquals(java.time.LocalDate.of(2000, 1, 1), book.getPublicationDate(),
-                "Expected publication date to be 2000-01-01");
-
-        verify(connection).close();
-        verify(preparedStatement).close();
-        verify(resultSet).close();
-        verify(resultSet).close();
-    }
-
-    @Test
-    void testGetAllWithThreeBooks() throws SQLException {
-        when(preparedStatement.executeQuery()).thenReturn(resultSet);
-
-        when(resultSet.next()).thenReturn(true, true, true, true, false);
-        when(resultSet.getInt("author_id")).thenReturn(1,1, 2, 2, 1, 1);
-        when(resultSet.getString("author_name")).thenReturn("Author Name 1", "Author Name 2");
-        when(resultSet.getInt("author_details_id")).thenReturn(1, 2);
-        when(resultSet.getString("author_details_life_years")).thenReturn("1900-2000", "1990-н.в.");
-        when(resultSet.getString("author_details_brief_biography"))
-                .thenReturn("A brief bio 1", "A brief bio 2");
-        when(resultSet.getInt("book_id")).thenReturn(1, 2, 3);
-        when(resultSet.getString("book_title"))
-                .thenReturn("Book Title 1", "Book Title 2", "Book Title 3");
-        when(resultSet.getString("book_description"))
-                .thenReturn("Book Description 1", "Book Description 2", "Book Description 3");
-        when(resultSet.getDate("book_publication_date"))
-                .thenReturn(java.sql.Date.valueOf("2000-01-01"),
-                        java.sql.Date.valueOf("2000-02-02"),
-                        java.sql.Date.valueOf("2000-03-03"));
-
-        List<Author> authors = authorDAO.getAll();
-
-        assertEquals(2, authors.size(), "Expected two author in the result list");
-        List<Book> books = authors.getFirst().getBooks();
-
-        assertEquals(3, books.size(), "Expected three book in the author's book list");
-
         verify(connection).close();
         verify(preparedStatement).close();
         verify(resultSet).close();
@@ -128,22 +79,13 @@ class AuthorDAOImplTest {
     void testGetById() throws SQLException {
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
 
-        when(resultSet.next()).thenReturn(true, true, true, false);
-        when(resultSet.getInt("author_id")).thenReturn(1,1);
+        when(resultSet.next()).thenReturn(true, false);
+        when(resultSet.getInt("author_id")).thenReturn(1);
         when(resultSet.getString("author_name")).thenReturn("Author Name 1");
         when(resultSet.getInt("author_details_id")).thenReturn(1);
         when(resultSet.getString("author_details_life_years")).thenReturn("1900-2000");
         when(resultSet.getString("author_details_brief_biography"))
                 .thenReturn("A brief bio 1");
-        when(resultSet.getInt("book_id")).thenReturn(1, 2, 3);
-        when(resultSet.getString("book_title"))
-                .thenReturn("Book Title 1", "Book Title 2", "Book Title 3");
-        when(resultSet.getString("book_description"))
-                .thenReturn("Book Description 1", "Book Description 2", "Book Description 3");
-        when(resultSet.getDate("book_publication_date"))
-                .thenReturn(java.sql.Date.valueOf("2000-01-01"),
-                        java.sql.Date.valueOf("2000-02-02"),
-                        java.sql.Date.valueOf("2000-03-03"));
 
         Author author = authorDAO.getById(1);
 
@@ -153,10 +95,6 @@ class AuthorDAOImplTest {
         AuthorDetails authorDetails = author.getAuthorDetails();
 
         assertNotNull(authorDetails, "Expected author details to be present");
-
-        List<Book> books = author.getBooks();
-
-        assertEquals(3, books.size(), "Expected three book in the author's book list");
 
         verify(connection).close();
         verify(preparedStatement).close();

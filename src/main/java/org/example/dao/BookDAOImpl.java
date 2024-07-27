@@ -121,10 +121,10 @@ public class BookDAOImpl implements BookDAO {
     }
 
     private Book buildBookFromResultSet(ResultSet resultSet) throws SQLException {
-        int bookId = resultSet.getInt("book_id");
-        String title = resultSet.getString("book_title");
-        String description = resultSet.getString("book_description");
-        Date publicationDate = resultSet.getDate("book_publication_date");
+        int bookId = resultSet.getInt("id");
+        String title = resultSet.getString("title");
+        String description = resultSet.getString("description");
+        Date publicationDate = resultSet.getDate("publication_date");
 
         int authorId = resultSet.getInt("author_id");
         Author author = new Author();

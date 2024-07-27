@@ -13,6 +13,11 @@ public class DataBaseConnection {
     private String password;
 
     public DataBaseConnection() {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         loadProperties();
     }
 
