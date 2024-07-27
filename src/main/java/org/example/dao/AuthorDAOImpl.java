@@ -4,19 +4,15 @@ import org.example.config.DataBaseConnection;
 import org.example.dao.query.AuthorSqlQuery;
 import org.example.entity.Author;
 import org.example.entity.AuthorDetails;
-import org.example.entity.Book;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class AuthorDAOImpl implements AuthorDAO {
-
     private final DataBaseConnection dataBaseConnection;
 
     public AuthorDAOImpl(DataBaseConnection dataBaseConnection) {
@@ -30,21 +26,14 @@ public class AuthorDAOImpl implements AuthorDAO {
         try (Connection connection = dataBaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
              ResultSet resultSet = preparedStatement.executeQuery()) {
-            Map<Integer, Author> authorMap = new HashMap<>();
 
+            List<Author> authors = new ArrayList<>();
             while (resultSet.next()) {
-                int authorId = resultSet.getInt("author_id");
-
-                Author author = authorMap.get(authorId);
-                if (author == null) {
-                    author = buildAuthorFromResultSet(resultSet);
-                    authorMap.put(authorId, author);
-                } else {
-                    addBookToAuthor(resultSet, author);
-                }
+                Author author = buildAuthorFromResultSet(resultSet);
+                authors.add(author);
             }
 
-            return new ArrayList<>(authorMap.values());
+            return authors;
         }
     }
 
@@ -60,11 +49,7 @@ public class AuthorDAOImpl implements AuthorDAO {
                 Author author = null;
 
                 while (resultSet.next()) {
-                    if (author == null) {
-                        author = buildAuthorFromResultSet(resultSet);
-                    } else {
-                        addBookToAuthor(resultSet, author);
-                    }
+                    author = buildAuthorFromResultSet(resultSet);
                 }
 
                 return author;
@@ -110,24 +95,6 @@ public class AuthorDAOImpl implements AuthorDAO {
         }
     }
 
-    private void addBookToAuthor(ResultSet resultSet, Author author) throws SQLException {
-        int bookId = resultSet.getInt("book_id");
-        if (bookId > 0) {
-            String bookTitle = resultSet.getString("book_title");
-            String bookDescription = resultSet.getString("book_description");
-            java.sql.Date publicationDate = resultSet.getDate("book_publication_date");
-
-            Book book = new Book.Builder()
-                    .id(bookId)
-                    .title(bookTitle)
-                    .description(bookDescription)
-                    .publicationDate(publicationDate != null ? publicationDate.toLocalDate() : null)
-                    .build();
-
-            author.addBook(book);
-        }
-    }
-
     private Author buildAuthorFromResultSet(ResultSet resultSet) throws SQLException {
         int authorId = resultSet.getInt("author_id");
         String authorName = resultSet.getString("author_name");
@@ -144,14 +111,10 @@ public class AuthorDAOImpl implements AuthorDAO {
                     .build();
         }
 
-        Author author = new Author.Builder()
+        return new Author.Builder()
                 .id(authorId)
                 .name(authorName)
                 .authorDetails(authorDetails)
                 .build();
-
-        addBookToAuthor(resultSet, author);
-
-        return author;
     }
 }
