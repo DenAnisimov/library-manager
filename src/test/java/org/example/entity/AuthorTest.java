@@ -11,7 +11,6 @@ class AuthorTest {
         Author author = new Author();
         assertEquals(0, author.getId());
         assertNull(author.getName());
-        assertTrue(author.getBooks().isEmpty());
         assertNull(author.getAuthorDetails());
     }
 
@@ -34,15 +33,6 @@ class AuthorTest {
     }
 
     @Test
-    void testAuthorAddBook() {
-        Author author = new Author();
-        Book book = new Book.Builder().id(1).title("Book Title").build();
-        author.addBook(book);
-        assertTrue(author.getBooks().contains(book));
-        assertEquals(author, book.getAuthor());
-    }
-
-    @Test
     void testAuthorEqualsAndHashCode() {
         Author author1 = new Author(1, "Author Name", null);
         Author author2 = new Author(1, "Author Name", null);
@@ -56,7 +46,7 @@ class AuthorTest {
     @Test
     void testAuthorToString() {
         Author author = new Author(1, "Author Name", null);
-        String expectedString = "Author{id=1, name='Author Name', authorDetails=null, books=[]}";
+        String expectedString = "Author{id=1, name='Author Name', authorDetails=null}";
 
         assertEquals(expectedString, author.toString());
     }

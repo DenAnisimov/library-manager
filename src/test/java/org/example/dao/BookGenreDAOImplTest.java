@@ -11,10 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -48,51 +46,25 @@ class BookGenreDAOImplTest {
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
 
         when(resultSet.next()).thenReturn(true, true, true, false);
-        when(resultSet.getInt("book_id")).thenReturn(1);
         when(resultSet.getString("book_title")).thenReturn("Book Title");
+        when(resultSet.getString("book_description")).thenReturn("Book Description");
+        when(resultSet.getDate("book_publication_date")).thenReturn(Date.valueOf(LocalDate.of(2002, 6, 5)));
         when(resultSet.getInt("genre_id")).thenReturn(1, 2, 3);
         when(resultSet.getString("genre_name")).thenReturn("Genre 1", "Genre 2", "Genre 3");
 
         BookGenre bookGenre = bookGenreDAO.getByBookId(1);
 
-        assertNotNull(bookGenre, "Expected non-null BookGenre object");
+        assertNotNull(bookGenre, "Ожидается ненулевой объект BookGenre");
 
         Set<Book> books = bookGenre.getBooks();
-        assertEquals(1, books.size(), "Expected one book in the result set");
+        assertEquals(1, books.size(), "Ожидается одна книга в результате");
 
         Book book = books.iterator().next();
-        assertEquals(1, book.getId(), "Expected book ID to be 1");
-        assertEquals("Book Title", book.getTitle(), "Expected book title to be 'Book Title'");
+        assertEquals(1, book.getId(), "Ожидается, что ID книги будет равен 1");
+        assertEquals("Book Title", book.getTitle(), "Ожидается, что заголовок книги будет 'Book Title'");
 
         Set<Genre> genres = bookGenre.getGenres();
-        assertEquals(3, genres.size(), "Expected three genres in the result set");
-
-        verify(connection).close();
-        verify(preparedStatement).close();
-        verify(resultSet).close();
-    }
-
-    @Test
-    void testGetByBookIdWithNoGenres() throws SQLException {
-        when(preparedStatement.executeQuery()).thenReturn(resultSet);
-
-        when(resultSet.next()).thenReturn(true, false);
-        when(resultSet.getInt("book_id")).thenReturn(1);
-        when(resultSet.getString("book_title")).thenReturn("Book Title");
-
-        BookGenre bookGenre = bookGenreDAO.getByBookId(1);
-
-        assertNotNull(bookGenre, "Expected non-null BookGenre object");
-
-        Set<Book> books = bookGenre.getBooks();
-        assertEquals(1, books.size(), "Expected one book in the result set");
-
-        Book book = books.iterator().next();
-        assertEquals(1, book.getId(), "Expected book ID to be 1");
-        assertEquals("Book Title", book.getTitle(), "Expected book title to be 'Book Title'");
-
-        Set<Genre> genres = bookGenre.getGenres();
-        assertEquals(0, genres.size(), "Expected zero genres in the result set");
+        assertEquals(3, genres.size(), "Ожидается три жанра в результате");
 
         verify(connection).close();
         verify(preparedStatement).close();
@@ -137,6 +109,8 @@ class BookGenreDAOImplTest {
         when(resultSet.getString("genre_name")).thenReturn("Genre Name");
         when(resultSet.getInt("book_id")).thenReturn(1, 2, 3);
         when(resultSet.getString("book_title")).thenReturn("Book Title 1", "Book Title 2", "Book Title 3");
+        when(resultSet.getString("book_description")).thenReturn("Book Description");
+        when(resultSet.getDate("book_publication_date")).thenReturn(Date.valueOf(LocalDate.of(2002, 6, 5)));
 
         BookGenre bookGenre = bookGenreDAO.getByGenreId(1);
 

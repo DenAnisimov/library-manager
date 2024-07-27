@@ -26,7 +26,7 @@ class BookDTOTest {
         assertEquals(1, bookDTO.getId());
         assertEquals("Book Title", bookDTO.getTitle());
         assertEquals("Book Description", bookDTO.getDescription());
-        assertEquals(author, bookDTO.getAuthor());
+        assertEquals(author, bookDTO.getAuthorDTO());
         assertEquals(ationDate, bookDTO.getPublicationDate());
     }
 
@@ -39,13 +39,13 @@ class BookDTOTest {
         bookDTO.setId(1);
         bookDTO.setTitle("Book Title");
         bookDTO.setDescription("Book Description");
-        bookDTO.setAuthor(author);
+        bookDTO.setAuthorDTO(author);
         bookDTO.setPublicationDate(ationDate);
 
         assertEquals(1, bookDTO.getId());
         assertEquals("Book Title", bookDTO.getTitle());
         assertEquals("Book Description", bookDTO.getDescription());
-        assertEquals(author, bookDTO.getAuthor());
+        assertEquals(author, bookDTO.getAuthorDTO());
         assertEquals(ationDate, bookDTO.getPublicationDate());
     }
 
@@ -86,7 +86,7 @@ class BookDTOTest {
         assertEquals(1, bookDTO.getId());
         assertEquals("Book Title", bookDTO.getTitle());
         assertEquals("Book Description", bookDTO.getDescription());
-        assertEquals(author, bookDTO.getAuthor());
+        assertEquals(author, bookDTO.getAuthorDTO());
         assertEquals(ationDate, bookDTO.getPublicationDate());
     }
 }

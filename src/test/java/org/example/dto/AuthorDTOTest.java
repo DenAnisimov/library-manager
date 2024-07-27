@@ -18,13 +18,11 @@ class AuthorDTOTest {
     @Test
     void testParameterizedConstructor() {
         AuthorDetailsDTO detailsDTO = new AuthorDetailsDTO();
-        List<BookDTO> books = new ArrayList<>();
-        AuthorDTO authorDTO = new AuthorDTO(1, "Author Name", detailsDTO, books);
+        AuthorDTO authorDTO = new AuthorDTO(1, "Author Name", detailsDTO);
 
         assertEquals(1, authorDTO.getId());
         assertEquals("Author Name", authorDTO.getName());
         assertEquals(detailsDTO, authorDTO.getAuthorDetails());
-        assertEquals(books, authorDTO.getBooks());
     }
 
     @Test
@@ -36,27 +34,15 @@ class AuthorDTOTest {
         authorDTO.setId(1);
         authorDTO.setName("Author Name");
         authorDTO.setAuthorDetails(detailsDTO);
-        authorDTO.setBooks(books);
-
         assertEquals(1, authorDTO.getId());
         assertEquals("Author Name", authorDTO.getName());
         assertEquals(detailsDTO, authorDTO.getAuthorDetails());
-        assertEquals(books, authorDTO.getBooks());
-    }
-
-    @Test
-    void testAddBook() {
-        AuthorDTO authorDTO = new AuthorDTO();
-        BookDTO bookDTO = new BookDTO();
-        authorDTO.addBook(bookDTO);
-
-        assertTrue(authorDTO.getBooks().contains(bookDTO));
     }
 
     @Test
     void testEqualsAndHashCode() {
-        AuthorDTO authorDTO1 = new AuthorDTO(1, "Author Name", null, new ArrayList<>());
-        AuthorDTO authorDTO2 = new AuthorDTO(1, "Author Name", null, new ArrayList<>());
+        AuthorDTO authorDTO1 = new AuthorDTO(1, "Author Name", null);
+        AuthorDTO authorDTO2 = new AuthorDTO(1, "Author Name", null);
 
         assertEquals(authorDTO1, authorDTO2);
         assertEquals(authorDTO1.hashCode(), authorDTO2.hashCode());
@@ -64,8 +50,8 @@ class AuthorDTOTest {
 
     @Test
     void testToString() {
-        AuthorDTO authorDTO = new AuthorDTO(1, "Author Name", null, new ArrayList<>());
-        String expected = "AuthorDTO{id=1, name='Author Name', authorDetails=null, books=[]}";
+        AuthorDTO authorDTO = new AuthorDTO(1, "Author Name", null);
+        String expected = "AuthorDTO{id=1, name='Author Name', authorDetails=null}";
 
         assertEquals(expected, authorDTO.toString());
     }
@@ -76,13 +62,11 @@ class AuthorDTOTest {
                 .id(1)
                 .name("Author Name")
                 .authorDetails(null)
-                .books(new ArrayList<>())
                 .build();
 
         assertEquals(1, authorDTO.getId());
         assertEquals("Author Name", authorDTO.getName());
-        assertEquals(null, authorDTO.getAuthorDetails());
-        assertEquals(new ArrayList<>(), authorDTO.getBooks());
+        assertNull(authorDTO.getAuthorDetails());
     }
 }
 
