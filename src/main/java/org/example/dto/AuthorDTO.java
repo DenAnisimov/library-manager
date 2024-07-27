@@ -1,31 +1,29 @@
 package org.example.dto;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Objects;
 
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AuthorDTO {
     private int id;
     private String name;
     private AuthorDetailsDTO authorDetails;
-    private List<BookDTO> books;
 
     public AuthorDTO() {
-        this.books = new ArrayList<>();
     }
 
     public AuthorDTO(Builder builder) {
         this.id = builder.id;
         this.name = builder.name;
         this.authorDetails = builder.authorDetails;
-        this.books = builder.books;
     }
 
-    public AuthorDTO(int id, String name, AuthorDetailsDTO authorDetails, List<BookDTO> books) {
+    public AuthorDTO(int id, String name, AuthorDetailsDTO authorDetails) {
         this.id = id;
         this.name = name;
         this.authorDetails = authorDetails;
-        this.books = books;
     }
 
     public int getId() {
@@ -52,19 +50,6 @@ public class AuthorDTO {
         this.authorDetails = authorDetails;
     }
 
-    public List<BookDTO> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<BookDTO> books) {
-        this.books = books;
-    }
-
-    public void addBook(BookDTO book) {
-        this.books.add(book);
-        book.setAuthor(this);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -83,7 +68,6 @@ public class AuthorDTO {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", authorDetails=" + authorDetails +
-                ", books=" + books +
                 '}';
     }
 
@@ -91,7 +75,6 @@ public class AuthorDTO {
         private int id;
         private String name;
         private AuthorDetailsDTO authorDetails;
-        private List<BookDTO> books;
 
         public Builder id(int id) {
             this.id = id;
@@ -108,17 +91,11 @@ public class AuthorDTO {
             return this;
         }
 
-        public Builder books(List<BookDTO> books) {
-            this.books = books;
-            return this;
-        }
-
         public AuthorDTO build() {
             AuthorDTO authorDTO = new AuthorDTO();
             authorDTO.setId(this.id);
             authorDTO.setName(this.name);
             authorDTO.setAuthorDetails(this.authorDetails);
-            authorDTO.setBooks(this.books);
             return authorDTO;
         }
     }

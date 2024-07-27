@@ -1,13 +1,17 @@
 package org.example.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BookDTO {
     private int id;
     private String title;
     private String description;
-    private AuthorDTO author;
+    private AuthorDTO authorDTO;
     private LocalDate publicationDate;
 
     public BookDTO() {}
@@ -16,16 +20,16 @@ public class BookDTO {
         this.id = builder.id;
         this.title = builder.title;
         this.description = builder.description;
-        this.author = builder.author;
         this.publicationDate = builder.publicationDate;
+        this.authorDTO = builder.authorDTO;
     }
 
-    public BookDTO(int id, String title, String description, AuthorDTO author, LocalDate publicationDate) {
+    public BookDTO(int id, String title, String description, AuthorDTO authorDTO, LocalDate publicationDate) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.author = author;
         this.publicationDate = publicationDate;
+        this.authorDTO = authorDTO;
     }
 
     public int getId() {
@@ -52,12 +56,12 @@ public class BookDTO {
         this.description = description;
     }
 
-    public AuthorDTO getAuthor() {
-        return author;
+    public AuthorDTO getAuthorDTO() {
+        return authorDTO;
     }
 
-    public void setAuthor(AuthorDTO author) {
-        this.author = author;
+    public void setAuthorDTO(AuthorDTO authorDTO) {
+        this.authorDTO = authorDTO;
     }
 
     public LocalDate getPublicationDate() {
@@ -86,7 +90,7 @@ public class BookDTO {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", author=" + (author != null ? author.getName() : "null") +
+                ", author=" + (authorDTO != null ? authorDTO.getName() : "null") +
                 ", publicationDate=" + publicationDate +
                 '}';
     }
@@ -95,7 +99,7 @@ public class BookDTO {
         private int id;
         private String title;
         private String description;
-        private AuthorDTO author;
+        private AuthorDTO authorDTO;
         private LocalDate publicationDate;
 
         public Builder id(int id) {
@@ -113,8 +117,8 @@ public class BookDTO {
             return this;
         }
 
-        public Builder author(AuthorDTO author) {
-            this.author = author;
+        public Builder author(AuthorDTO authorDTO) {
+            this.authorDTO = authorDTO;
             return this;
         }
 
@@ -128,7 +132,7 @@ public class BookDTO {
             bookDTO.setId(this.id);
             bookDTO.setTitle(this.title);
             bookDTO.setDescription(this.description);
-            bookDTO.setAuthor(this.author);
+            bookDTO.setAuthorDTO(this.authorDTO);
             bookDTO.setPublicationDate(this.publicationDate);
             return bookDTO;
         }

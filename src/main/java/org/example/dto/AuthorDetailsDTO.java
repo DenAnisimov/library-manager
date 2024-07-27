@@ -1,12 +1,18 @@
 package org.example.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Objects;
 
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AuthorDetailsDTO {
     private int id;
     private String lifeYears;
     private String briefBiography;
-    private AuthorDTO author;
+    @JsonIgnore
+    private AuthorDTO authorDTO;
 
     public AuthorDetailsDTO() {}
 
@@ -14,14 +20,14 @@ public class AuthorDetailsDTO {
         this.id = builder.id;
         this.lifeYears = builder.lifeYears;
         this.briefBiography = builder.briefBiography;
-        this.author = builder.author;
+        this.authorDTO = builder.authorDTO;
     }
 
-    public AuthorDetailsDTO(int id, String lifeYears, String briefBiography, AuthorDTO author) {
+    public AuthorDetailsDTO(int id, String lifeYears, String briefBiography, AuthorDTO authorDTO) {
         this.id = id;
         this.lifeYears = lifeYears;
         this.briefBiography = briefBiography;
-        this.author = author;
+        this.authorDTO = authorDTO;
     }
 
     public int getId() {
@@ -48,12 +54,12 @@ public class AuthorDetailsDTO {
         this.briefBiography = briefBiography;
     }
 
-    public AuthorDTO getAuthor() {
-        return author;
+    public AuthorDTO getAuthorDTO() {
+        return authorDTO;
     }
 
-    public void setAuthor(AuthorDTO author) {
-        this.author = author;
+    public void setAuthorDTO(AuthorDTO authorDTO) {
+        this.authorDTO = authorDTO;
     }
 
     @Override
@@ -63,12 +69,12 @@ public class AuthorDetailsDTO {
         return id == that.id
                 && Objects.equals(lifeYears, that.lifeYears)
                 && Objects.equals(briefBiography, that.briefBiography)
-                && Objects.equals(author, that.author);
+                && Objects.equals(authorDTO, that.authorDTO);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, lifeYears, briefBiography, author);
+        return Objects.hash(id, lifeYears, briefBiography, authorDTO);
     }
 
     @Override
@@ -77,7 +83,7 @@ public class AuthorDetailsDTO {
                 "id=" + id +
                 ", lifeYears='" + lifeYears + '\'' +
                 ", briefBiography='" + briefBiography + '\'' +
-                ", author=" + (author != null ? author.getName() : "null") +
+                ", author=" + (authorDTO != null ? authorDTO.getName() : "null") +
                 '}';
     }
 
@@ -85,7 +91,7 @@ public class AuthorDetailsDTO {
         private int id;
         private String lifeYears;
         private String briefBiography;
-        private AuthorDTO author;
+        private AuthorDTO authorDTO;
 
         public Builder id(int id) {
             this.id = id;
@@ -102,8 +108,8 @@ public class AuthorDetailsDTO {
             return this;
         }
 
-        public Builder author(AuthorDTO author) {
-            this.author = author;
+        public Builder authorDTO(AuthorDTO authorDTO) {
+            this.authorDTO = authorDTO;
             return this;
         }
 
