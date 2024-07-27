@@ -7,8 +7,8 @@ public class Book {
     private int id;
     private String title;
     private String description;
-    private Author author;
     private LocalDate publicationDate;
+    private Author author;
 
     public Book() {}
 
@@ -16,16 +16,16 @@ public class Book {
         this.id = builder.id;
         this.title = builder.title;
         this.description = builder.description;
-        this.author = builder.author;
         this.publicationDate = builder.publicationDate;
+        this.author = builder.author;
     }
 
     public Book(int id, String title, String description, Author author, LocalDate publicationDate) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.author = author;
         this.publicationDate = publicationDate;
+        this.author = author;
     }
 
     public int getId() {
